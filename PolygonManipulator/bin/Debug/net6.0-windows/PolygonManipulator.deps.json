@@ -9,6 +9,11 @@
       "PolygonManipulator/1.0.0": {
         "runtime": {
           "PolygonManipulator.dll": {}
+        },
+        "resources": {
+          "dje/PolygonManipulator.resources.dll": {
+            "locale": "dje"
+          }
         }
       }
     }
