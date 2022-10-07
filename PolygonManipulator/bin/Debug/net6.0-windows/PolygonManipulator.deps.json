@@ -13,6 +13,9 @@
         "resources": {
           "dje/PolygonManipulator.resources.dll": {
             "locale": "dje"
+          },
+          "pl-PL/PolygonManipulator.resources.dll": {
+            "locale": "pl-PL"
           }
         }
       }
