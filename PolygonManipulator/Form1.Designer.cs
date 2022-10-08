@@ -28,22 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.Canvas = new System.Windows.Forms.PictureBox();
+            this.canvasContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AddNewPolygonToCanvasButton = new System.Windows.Forms.Button();
-            this.MoveSelectedPolygonButton = new System.Windows.Forms.Button();
             this.ClearCanvasButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.MovePointsRadioButton = new System.Windows.Forms.RadioButton();
+            this.AddPointsRadioButton = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Canvas
             // 
+            this.Canvas.ContextMenuStrip = this.canvasContextMenuStrip;
             resources.ApplyResources(this.Canvas, "Canvas");
             this.Canvas.Name = "Canvas";
             this.Canvas.TabStop = false;
-            this.Canvas.Paint += new System.Windows.Forms.PaintEventHandler(this.canvas_Paint);
-            this.Canvas.MouseClick += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseClick);
+            this.Canvas.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseClick);
+            this.Canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseDown);
+            this.Canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseUp);
+            // 
+            // canvasContextMenuStrip
+            // 
+            this.canvasContextMenuStrip.Name = "contextMenuStrip1";
+            resources.ApplyResources(this.canvasContextMenuStrip, "canvasContextMenuStrip");
+            this.canvasContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.canvasContextMenuStrip_Opening);
             // 
             // AddNewPolygonToCanvasButton
             // 
@@ -51,13 +64,7 @@
             resources.ApplyResources(this.AddNewPolygonToCanvasButton, "AddNewPolygonToCanvasButton");
             this.AddNewPolygonToCanvasButton.Name = "AddNewPolygonToCanvasButton";
             this.AddNewPolygonToCanvasButton.UseVisualStyleBackColor = true;
-            this.AddNewPolygonToCanvasButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button1_MouseClick);
-            // 
-            // MoveSelectedPolygonButton
-            // 
-            resources.ApplyResources(this.MoveSelectedPolygonButton, "MoveSelectedPolygonButton");
-            this.MoveSelectedPolygonButton.Name = "MoveSelectedPolygonButton";
-            this.MoveSelectedPolygonButton.UseVisualStyleBackColor = true;
+            this.AddNewPolygonToCanvasButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.AddNewPolygonToCanvasButton_MouseClick);
             // 
             // ClearCanvasButton
             // 
@@ -66,25 +73,51 @@
             this.ClearCanvasButton.UseVisualStyleBackColor = true;
             this.ClearCanvasButton.Click += new System.EventHandler(this.ClearCanvasButton_Click);
             // 
-            // button1
+            // groupBox1
             // 
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.groupBox1.Controls.Add(this.MovePointsRadioButton);
+            this.groupBox1.Controls.Add(this.AddPointsRadioButton);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // MovePointsRadioButton
+            // 
+            resources.ApplyResources(this.MovePointsRadioButton, "MovePointsRadioButton");
+            this.MovePointsRadioButton.Name = "MovePointsRadioButton";
+            this.MovePointsRadioButton.TabStop = true;
+            this.MovePointsRadioButton.UseVisualStyleBackColor = true;
+            this.MovePointsRadioButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MovePointsRadioButton_MouseClick);
+            // 
+            // AddPointsRadioButton
+            // 
+            resources.ApplyResources(this.AddPointsRadioButton, "AddPointsRadioButton");
+            this.AddPointsRadioButton.Name = "AddPointsRadioButton";
+            this.AddPointsRadioButton.TabStop = true;
+            this.AddPointsRadioButton.UseVisualStyleBackColor = true;
+            this.AddPointsRadioButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.AddPointsRadioButton_MouseClick);
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.Canvas);
-            this.Controls.Add(this.MoveSelectedPolygonButton);
             this.Controls.Add(this.AddNewPolygonToCanvasButton);
             this.Controls.Add(this.ClearCanvasButton);
             this.Name = "Form1";
             this.TransparencyKey = System.Drawing.Color.Red;
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -92,8 +125,11 @@
 
         private PictureBox Canvas;
         private Button AddNewPolygonToCanvasButton;
-        private Button MoveSelectedPolygonButton;
         private Button ClearCanvasButton;
-        private Button button1;
+        private GroupBox groupBox1;
+        private RadioButton MovePointsRadioButton;
+        private RadioButton AddPointsRadioButton;
+        private Label label1;
+        private ContextMenuStrip canvasContextMenuStrip;
     }
 }
