@@ -37,6 +37,7 @@ namespace PolygonManipulator
             _selectedPolygonPointColor = Brushes.DarkBlue;
             _lastSelectedElement = LastSelectedElement.POINT;
             _currentPointId = -1;
+            AddNewPolygonToCanvasButton_MouseClick(null, null);
             using (Graphics g = Graphics.FromImage(_drawArea))
             {
                 g.Clear(_canvasColor);
@@ -319,36 +320,43 @@ namespace PolygonManipulator
         }
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
-            {
-                return;
-            }
-            if (_polygons.Count == 0)
-            {
-                return;
-            }
             _prevMouseLocation = e.Location;
-            switch (_state)
+            if (e.Button == MouseButtons.Right)
             {
-                case State.ADDING:
-                    DrawAndAddPoint(sender, e);
-                    break;
-                case State.MOVEING:
-                    this.Canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
-
-                    break;
+                return;
             }
+            if (e.Button == MouseButtons.Middle)
+            {
+                DrawAndAddPoint(sender, e);
+            }
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
+            }
+            //switch (_state)
+            //{
+            //    case State.ADDING:
+            //        DrawAndAddPoint(sender, e);
+            //        break;
+            //    case State.MOVEING:
+            //        this.Canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
+
+            //        break;
+            //}
         }
         private void Canvas_MouseUp(object sender, MouseEventArgs e)
         {
-            switch (_state)
+            if (e.Button == MouseButtons.Left)
             {
-                case State.MOVEING:
-                    this.Canvas.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
+                this.Canvas.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
 
-                    //MovePointOrPolygon(sender, e);
-                    break;
             }
+            //switch (_state)
+            //{
+            //    case State.MOVEING:
+            //        this.Canvas.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
+            //        break;
+            //}
         }
         private void RepaintCanvas()
         {
@@ -470,8 +478,6 @@ namespace PolygonManipulator
             c.Show(sender, e.Location);
             return;
         }
-
-
         private void Canvas_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
