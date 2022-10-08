@@ -21,7 +21,7 @@
         public List<MyPoint> Points { get; set; }
         private bool _isPolygonCycle = false;
         const int SearchRadiusPoint = 4;
-        const int SearchRadiusLine = 7;
+        const int SearchRadiusLine = 8;
         private int _pointRadius;
         private Brush _pointColor;
         private Pen _lineColor;
@@ -103,12 +103,44 @@
         }
         public bool IsPointInBoundingBox(Point point)
         {
-            if (IsClickNearSomeLineOrPoint(point) == 1) // there is some line of point near click, so we want to move them
+            if (IsClickNearSomeLineOrPoint(point) == true) // there is some line of point near click, so we want to move them
             {
                 return false;
             }
-            // todo: fix bounding box sth wrong when polygon goes outside of canvas
-            return _boundingBox.MinX < point.X && _boundingBox.MaxX > point.X && _boundingBox.MinY < point.Y && _boundingBox.MaxY > point.Y;
+            //// todo: fix bounding box sth wrong when polygon goes outside of canvas
+            //return _boundingBox.MinX < point.X && _boundingBox.MaxX > point.X && _boundingBox.MinY < point.Y && _boundingBox.MaxY > point.Y;
+
+            var c = new ConvexHullAlgorithms();
+            (double, double)[] points = new (double, double)[Points.Count()];
+            int i = 0;
+            foreach (var p in Points)
+            {
+                points[i++] = (p.X, p.Y);
+            }
+            var res = c.ConvexHull(points);
+            if (res == null)
+            {
+                return false;
+            }
+            var ret = c.IsPointInPolygon(res, (point.X, point.Y));
+            return ret;
+            //public static bool IsPointInPolygon4(PointF[] Points, PointF point)
+            //{
+            //    bool result = false;
+            //    int j = Points.Count() - 1;
+            //    for (int i = 0; i < Points.Count(); i++)
+            //    {
+            //        if (Points[i].Y < point.Y && Points[j].Y >= point.Y || Points[j].Y < point.Y && Points[i].Y >= point.Y)
+            //        {
+            //            if (Points[i].X + (point.Y - Points[i].Y) / (Points[j].Y - Points[i].Y) * (Points[j].X - Points[i].X) < point.X)
+            //            {
+            //                result = !result;
+            //            }
+            //        }
+            //        j = i;
+            //    }
+            //    return result;
+            //}
         }
         public void UpdateBoundingBoxAfterTranslation()
         {
@@ -205,13 +237,13 @@
             }
             return -1;
         }
-        public int IsClickNearSomeLineOrPoint(Point p)
+        public bool IsClickNearSomeLineOrPoint(Point p)
         {
             if (IsClickNearSomeLine(p) != -1 || IsClickNearSomePoint(p) != -1)
             {
-                return 1;
+                return true;
             }
-            return -1;
+            return false;
         }
         public void RepaintPolygon(Graphics g, Pen lineColor, Brush pointColor, Pen selectedLineColor, Brush selectedPointColor,
             int pointId = -1, LastSelectedElement lastSelectedElement = LastSelectedElement.POLYGON)

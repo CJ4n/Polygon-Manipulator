@@ -87,6 +87,7 @@ namespace PolygonManipulator
         {
             _currentPolygon = null;
             _polygons = new List<Polygon>();
+            AddNewPolygonToCanvasButton_MouseClick(null, null);
             using (Graphics g = Graphics.FromImage(_drawArea))
             {
                 g.Clear(_canvasColor);
@@ -258,7 +259,7 @@ namespace PolygonManipulator
             }
             foreach (Polygon polygon in _polygons)
             {
-                if (polygon.IsClickNearSomeLineOrPoint(e.Location) == 1)
+                if (polygon.IsClickNearSomeLineOrPoint(e.Location) == true)
                 {
                     return false;
                 }
@@ -378,8 +379,6 @@ namespace PolygonManipulator
             }
             Canvas.Refresh();
         }
-
-
         (Polygon?, int) GetPointFromLocation(Point p)
         {
             int res = _currentPolygon.IsClickNearSomePoint(p, _currentPointId);
