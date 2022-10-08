@@ -34,17 +34,31 @@
             public int MinY = int.MaxValue;
         }
         private BoundingBox _boundingBox;
+        private int _maxId = 0;
 
         public Polygon(Pen line, Brush point, int pointRadius)
         {
             _lineColor = line;
             _pointColor = point;
             Points = new List<MyPoint>();
+
             _boundingBox = new BoundingBox();
             _pointRadius = pointRadius;
             _font = new Font("Arial", 10);
         }
-        public int AddPoint(int x, int y)
+        private MyPoint GetPointFromId(int id)
+        {
+            foreach (var p in Points)
+            {
+                if (p.Id == id)
+                {
+                    return p;
+                }
+            }
+            return null;
+        }
+
+        public int AddPointAtEnd(int x, int y)
         {
             if (_isPolygonCycle)
             {
@@ -67,7 +81,7 @@
                         return 0; // Creation of polygon has just been finished
                     }
                 }
-                MyPoint newPoint = new MyPoint(x, y, lastPoint.Id + 1, lastPoint, null);
+                MyPoint newPoint = new MyPoint(x, y, _maxId++, lastPoint, null);
                 lastPoint.Next = newPoint;
                 Points.Add(newPoint);
 
@@ -76,7 +90,7 @@
             }
             else
             {
-                Points.Add(new MyPoint(x, y, 0, null, null));
+                Points.Add(new MyPoint(x, y, _maxId++, null, null));
             }
 
             UpdateBoundingBoxAfterTranslation();
@@ -119,10 +133,13 @@
         {
             if (id != -1)
             {
-                MyPoint pt = Points[id];
-                if (AreTwoPointsNear(pt.X, pt.Y, p.X, p.Y))
+                MyPoint pt = GetPointFromId(id);
+                if (pt != null)
                 {
-                    return pt.Id;
+                    if (AreTwoPointsNear(pt.X, pt.Y, p.X, p.Y))
+                    {
+                        return pt.Id;
+                    }
                 }
             }
             foreach (MyPoint point in Points)
@@ -132,31 +149,32 @@
                     return point.Id;
                 }
             }
-
             return -1;
         }
         public int IsClickNearSomeLine(Point p, int id = -1)
         {
-
             if (id != -1)
             {
-                MyPoint point = Points[id];
-                if (point.Next != null)
+                MyPoint point = GetPointFromId(id);
+                if (point != null)
                 {
-
-                    int minX = Math.Min(point.X, point.Next.X);
-                    int maxX = Math.Max(point.X, point.Next.X);
-                    int minY = Math.Min(point.Y, point.Next.Y);
-                    int maxY = Math.Max(point.Y, point.Next.Y);
-                    if (!(minX > p.X || maxX < p.X || minY > p.Y || maxY < p.Y))
+                    if (point.Next != null)
                     {
-                        int x1 = point.X, y1 = point.Y, x2 = point.Next.X, y2 = point.Next.Y;
-                        double A = y1 - y2;
-                        double B = -(x1 - x2);
-                        double C = y1 * (x1 - x2) - x1 * (y1 - y2);
-                        if (Math.Abs(A * p.X + B * p.Y + C) / Math.Sqrt(A * A + B * B) < SearchRadiusLine)
+
+                        int minX = Math.Min(point.X, point.Next.X);
+                        int maxX = Math.Max(point.X, point.Next.X);
+                        int minY = Math.Min(point.Y, point.Next.Y);
+                        int maxY = Math.Max(point.Y, point.Next.Y);
+                        if (!(minX > p.X || maxX < p.X || minY > p.Y || maxY < p.Y))
                         {
-                            return point.Id;
+                            int x1 = point.X, y1 = point.Y, x2 = point.Next.X, y2 = point.Next.Y;
+                            double A = y1 - y2;
+                            double B = -(x1 - x2);
+                            double C = y1 * (x1 - x2) - x1 * (y1 - y2);
+                            if (Math.Abs(A * p.X + B * p.Y + C) / Math.Sqrt(A * A + B * B) < SearchRadiusLine)
+                            {
+                                return point.Id;
+                            }
                         }
                     }
                 }
@@ -198,11 +216,16 @@
         public void RepaintPolygon(Graphics g, Pen lineColor, Brush pointColor, Pen selectedLineColor, Brush selectedPointColor,
             int pointId = -1, LastSelectedElement lastSelectedElement = LastSelectedElement.POLYGON)
         {
+            var selectedPoint = GetPointFromId(pointId);
+            if (selectedPoint == null)
+            {
+                selectedPoint = new MyPoint(0, 0, -1, null, null);
+            }
             if (lastSelectedElement == LastSelectedElement.POINT)
             {
                 foreach (MyPoint point in Points)
                 {
-                    if (point.Id == pointId)
+                    if (point.Id == selectedPoint.Id)
                     {
                         g.FillEllipse(selectedPointColor, point.X - _pointRadius, point.Y - _pointRadius, _pointRadius * 2, _pointRadius * 2);
                     }
@@ -219,9 +242,10 @@
             }
             else if (lastSelectedElement == LastSelectedElement.LINE)
             {
+
                 foreach (MyPoint point in Points)
                 {
-                    if (point.Id == pointId || (point.Id == pointId + 1 && pointId != -1) || pointId == Points.Count() - 1)
+                    if (point.Id == selectedPoint.Id || (selectedPoint.Next != null && point.Id == selectedPoint.Next.Id))
                     {
                         g.FillEllipse(selectedPointColor, point.X - _pointRadius, point.Y - _pointRadius, _pointRadius * 2, _pointRadius * 2);
                     }
@@ -231,7 +255,7 @@
                     }
                     if (point.Next != null)
                     {
-                        if (point.Id == pointId)
+                        if (point.Id == selectedPoint.Id)
                         {
                             g.DrawLine(selectedLineColor, new Point(point.X, point.Y), new Point(point.Next.X, point.Next.Y));
                         }
@@ -255,34 +279,25 @@
                     g.DrawString(point.Id.ToString(), _font, Brushes.Brown, new Point(point.X, point.Y));
                 }
             }
-            //else // if(lastSelectedElement == LastSelectedElement.NONE)
-            //{
-            //    foreach (MyPoint point in Points)
-            //    {
-            //        g.FillEllipse(pointColor, point.X - _pointRadius, point.Y - _pointRadius, _pointRadius * 2, _pointRadius * 2);
-            //        if (point.Next != null)
-            //        {
-            //            g.DrawLine(lineColor, new Point(point.X, point.Y), new Point(point.Next.X, point.Next.Y));
-            //        }
-            //        g.DrawString(point.Id.ToString(), new Font("Arial", 16), Brushes.Blue, new Point(point.X, point.Y));
-            //    }
-            //}
         }
         public void TranslatePoint(int dx, int dy, int id)
         {
-            var point = Points[id];
+            var point = GetPointFromId(id);
+            if (point == null)
+            {
+                return;
+            }
             point.X -= dx;
             point.Y -= dy;
             UpdateBoundingBoxAfterTranslation();
         }
         public void TranslateLine(int dx, int dy, int id)
         {
+
             TranslatePoint(dx, dy, id);
-            if (id == Points.Count() - 1)
-            {
-                id = -1;
-            }
-            TranslatePoint(dx, dy, id + 1);
+            var point = GetPointFromId(id);
+            id = point.Next.Id;
+            TranslatePoint(dx, dy, id);
         }
         public void TranslatePolygon(int dx, int dy)
         {
@@ -290,6 +305,49 @@
             {
                 TranslatePoint(dx, dy, point.Id);
             }
+        }
+        public void DeletePoint(int id)
+        {
+            var p = GetPointFromId(id);
+            if (p == null)
+            {
+                return;
+            }
+            if (Points.Count() <= 3)
+            {
+                Points.Clear();
+            }
+            else
+            {
+                if (p.Prev != null)
+                {
+                    p.Prev.Next = p.Next;
+                }
+                if (p.Next != null)
+                {
+                    p.Next.Prev = p.Prev;
+                }
+                Points.Remove(p);
+            }
+        }
+        public void DeleteLine(int id)
+        {
+            int nextId = GetPointFromId(id).Next.Id;
+            DeletePoint(id);
+
+            DeletePoint(nextId);
+        }
+        public void AddPointInTheMiddleOfLine(int id)
+        {
+            var p1 = GetPointFromId(id);
+            var p2 = GetPointFromId(p1.Next.Id);
+            int x = (p1.X + p2.X) / 2;
+            int y = (p1.Y + p2.Y) / 2;
+            MyPoint newPoint = new MyPoint(x, y, _maxId++, p1, p2);
+            p1.Next = newPoint;
+            p2.Prev = newPoint;
+            Points.Add(newPoint);
+
         }
     }
 

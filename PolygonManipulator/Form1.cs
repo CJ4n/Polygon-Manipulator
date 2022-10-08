@@ -20,6 +20,7 @@ namespace PolygonManipulator
         // private enum LastSelectedElement { POINT, LINE, POLYGON };
         private LastSelectedElement _lastSelectedElement;
         private int _currentPointId;
+        private Point _contextMenuOpenLocation;
 
         public Form1()
         {
@@ -52,14 +53,14 @@ namespace PolygonManipulator
 
             if (_currentPolygon.Points.Count() == 0) // adding first point to canvas
             {
-                _currentPolygon.AddPoint(e.X, e.Y);
+                _currentPolygon.AddPointAtEnd(e.X, e.Y);
                 _currentPointId = _currentPolygon.Points.Count() - 1;
                 //g.FillEllipse(_pointColor, e.X - Radius, e.Y - Radius, Radius * 2, Radius * 2);
             }
             else
             {
                 var LastPoint = _currentPolygon.Points.Last();
-                int res = _currentPolygon.AddPoint(e.X, e.Y);
+                int res = _currentPolygon.AddPointAtEnd(e.X, e.Y);
 
                 if (res == 0) // polygon just became a cycle
                 {
@@ -370,27 +371,104 @@ namespace PolygonManipulator
             Canvas.Refresh();
         }
 
-        void func(object sender, EventArgs e)
+
+        (Polygon?, int) GetPointFromLocation(Point p)
         {
-            MessageBox.Show("toolsor menu");
+            int res = _currentPolygon.IsClickNearSomePoint(p, _currentPointId);
+            if (res != -1)
+            {
+                return (_currentPolygon, res);
+            }
+            foreach (Polygon polygon in _polygons)
+            {
+                res = polygon.IsClickNearSomePoint(p, _currentPointId);
+                if (res != -1)
+                {
+                    return (polygon, res);
+                }
+            }
+            return (null, -1);
         }
-        private void canvasContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        (Polygon?, int) GetLineFromLocation(Point p)
         {
-
-
+            int res = _currentPolygon.IsClickNearSomeLine(p, _currentPointId);
+            if (res != -1)
+            {
+                return (_currentPolygon, res);
+            }
+            foreach (Polygon polygon in _polygons)
+            {
+                res = polygon.IsClickNearSomeLine(p, _currentPointId);
+                if (res != -1)
+                {
+                    return (polygon, res);
+                }
+            }
+            return (null, -1);
+        }
+        void DeletePoint(object sender, EventArgs e)
+        {
+            var res = GetPointFromLocation(_contextMenuOpenLocation);
+            if (res.Item1 != null)
+            {
+                res.Item1.DeletePoint(res.Item2);
+            }
+            RepaintCanvas();
+        }
+        void DeleteLine(object sender, EventArgs e)
+        {
+            var res = GetLineFromLocation(_contextMenuOpenLocation);
+            if (res.Item1 != null)
+            {
+                res.Item1.DeleteLine(res.Item2);
+            }
+            RepaintCanvas();
+        }
+        void AddPointOnTheLine(object sender, EventArgs e)
+        {
+            var res = GetLineFromLocation(_contextMenuOpenLocation);
+            if (res.Item1 != null)
+            {
+                res.Item1.AddPointInTheMiddleOfLine(res.Item2);
+            }
+            RepaintCanvas();
         }
         private void CreateContextMenu(PictureBox sender, MouseEventArgs e)
         {
-            //var a = sender as ContextMenuStrip;
-
-            //this.canvasContextMenuStrip.Items.Clear();
-
-            ToolStripMenuItem toolStripMenuItem = new ToolStripMenuItem("delete");
-            toolStripMenuItem.Click += new System.EventHandler(func);
-            //int idx = this.canvasContextMenuStrip.Items.Add(toolStripMenuItem);
+            _contextMenuOpenLocation = e.Location;
             var c = new ContextMenuStrip();
-            c.Items.Add(toolStripMenuItem);
+
+            var resPoint = GetPointFromLocation(e.Location);
+            if (resPoint.Item1 != null)
+            {
+                ToolStripMenuItem toolStripMenuItemDeletePoint = new ToolStripMenuItem("Delete point");
+                toolStripMenuItemDeletePoint.Click += new EventHandler(DeletePoint);
+                c.Items.Add(toolStripMenuItemDeletePoint);
+                _lastSelectedElement = LastSelectedElement.POINT;
+                _currentPointId = resPoint.Item2;
+            }
+            else
+            {
+                var resLine = GetLineFromLocation(e.Location);
+                if (resLine.Item1 != null && resPoint.Item1 == null)
+                {
+                    ToolStripMenuItem toolStripMenuItemDeleteLine = new ToolStripMenuItem("Delete line");
+                    ToolStripMenuItem toolStripMenuItemAddPointMiddle = new ToolStripMenuItem("Add point in the middle");
+                    toolStripMenuItemDeleteLine.Click += new EventHandler(DeleteLine);
+                    toolStripMenuItemAddPointMiddle.Click += new EventHandler(AddPointOnTheLine);
+                    c.Items.Add(toolStripMenuItemDeleteLine);
+                    c.Items.Add(toolStripMenuItemAddPointMiddle);
+                    _lastSelectedElement = LastSelectedElement.LINE;
+                    _currentPointId = resLine.Item2;
+                }
+                else
+                {
+                    _currentPointId = -1;
+                }
+            }
+            RepaintCanvas();
             c.Show(sender, e.Location);
+            return;
         }
 
 

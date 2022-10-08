@@ -56,7 +56,6 @@
             // 
             this.canvasContextMenuStrip.Name = "contextMenuStrip1";
             resources.ApplyResources(this.canvasContextMenuStrip, "canvasContextMenuStrip");
-            this.canvasContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.canvasContextMenuStrip_Opening);
             // 
             // AddNewPolygonToCanvasButton
             // 
