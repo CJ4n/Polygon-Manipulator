@@ -1,6 +1,6 @@
 namespace PolygonManipulator
 {
-    public enum LastSelectedElement { POINT, LINE, POLYGON, NONE };
+    public enum LastSelectedElement { POINT, LINE, POLYGON, NONE, ADDING_CONSTRAINT };
     public partial class Form1 : Form
     {
         private Bitmap _drawArea;
@@ -17,7 +17,6 @@ namespace PolygonManipulator
         private Pen _selectedLineColor;
         private Brush _selectedPolygonPointColor;
         private Pen _selectedPolygonLineColor;
-        // private enum LastSelectedElement { POINT, LINE, POLYGON };
         private LastSelectedElement _lastSelectedElement;
         private int _currentPointId;
         private Point _contextMenuOpenLocation;
@@ -38,10 +37,12 @@ namespace PolygonManipulator
             _lastSelectedElement = LastSelectedElement.POINT;
             _currentPointId = -1;
             AddNewPolygonToCanvasButton_MouseClick(null, null);
+
             using (Graphics g = Graphics.FromImage(_drawArea))
             {
                 g.Clear(_canvasColor);
             }
+            GenerateScene1();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -118,14 +119,13 @@ namespace PolygonManipulator
             {
                 return;
             }
-            this.label1.Text = "posigion: (" + (e.X - _prevMouseLocation.X).ToString() + ", " + (e.Y - _prevMouseLocation.Y).ToString() + ")";
+            this.label1.Text = "posigion: (" + (e.X).ToString() + ", " + (e.Y).ToString() + ")";
             HandleMoveRequest(sender, e, _prevMouseLocation);
             _prevMouseLocation = e.Location;
 
         }
         private bool MovePoint(MouseEventArgs e, Point prevMouseLocation)
         {
-
             if (_currentPolygon != null)
             {
                 int res = _currentPolygon.IsClickNearSomePoint(prevMouseLocation, _currentPointId);
@@ -332,7 +332,15 @@ namespace PolygonManipulator
             }
             if (e.Button == MouseButtons.Left)
             {
-                this.Canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
+                if (_lastSelectedElement == LastSelectedElement.ADDING_CONSTRAINT)
+                {
+                    _lastSelectedElement = LastSelectedElement.LINE;
+                    AddConstraintParallel(_currentPointId, e.Location);
+                }
+                else
+                {
+                    this.Canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
+                }
             }
             //switch (_state)
             //{
@@ -440,6 +448,25 @@ namespace PolygonManipulator
             }
             RepaintCanvas();
         }
+        void AddConstraintParallel(int idP1, Point p2)
+        {
+            MyPoint p11 = _currentPolygon.GetPointFromId(idP1);
+            var res = GetLineFromLocation(p2);
+            if (res.Item1 == null)
+            {
+                return;
+            }
+            MyPoint p22 = res.Item1.GetPointFromId(res.Item2);
+            p11.AddConstraint(p11, p22, _currentPolygon, res.Item1);
+            //p11.Constraints.Add(new Constraint(p11, p22, _currentPolygon, res.Item1));
+            //p22.Constraints.Add(new Constraint(p22, p11, res.Item1, _currentPolygon));
+            //MessageBox.Show("added constrain");
+            RepaintCanvas();
+        }
+        void InitiateAddingConstraint(object sender, EventArgs e)
+        {
+            _lastSelectedElement = LastSelectedElement.ADDING_CONSTRAINT;
+        }
         private void CreateContextMenu(PictureBox sender, MouseEventArgs e)
         {
             _contextMenuOpenLocation = e.Location;
@@ -461,10 +488,13 @@ namespace PolygonManipulator
                 {
                     ToolStripMenuItem toolStripMenuItemDeleteLine = new ToolStripMenuItem("Delete line");
                     ToolStripMenuItem toolStripMenuItemAddPointMiddle = new ToolStripMenuItem("Add point in the middle");
+                    ToolStripMenuItem toolStripMenuConstraintParalell = new ToolStripMenuItem("Add constraint parallel");
                     toolStripMenuItemDeleteLine.Click += new EventHandler(DeleteLine);
                     toolStripMenuItemAddPointMiddle.Click += new EventHandler(AddPointOnTheLine);
+                    toolStripMenuConstraintParalell.Click += new EventHandler(InitiateAddingConstraint);
                     c.Items.Add(toolStripMenuItemDeleteLine);
                     c.Items.Add(toolStripMenuItemAddPointMiddle);
+                    c.Items.Add(toolStripMenuConstraintParalell);
                     _lastSelectedElement = LastSelectedElement.LINE;
                     _currentPointId = resLine.Item2;
                 }
@@ -483,6 +513,32 @@ namespace PolygonManipulator
             {
                 CreateContextMenu(sender as PictureBox, e);
             }
+            //if(e.Button )
+        }
+        private void GenerateScene1()
+        {
+            _currentPolygon.AddPointAtEnd(66, 79);
+            _currentPolygon.AddPointAtEnd(75, 140);
+            _currentPolygon.AddPointAtEnd(435, 165);
+            _currentPolygon.AddPointAtEnd(506, 84);
+            _currentPolygon.AddPointAtEnd(359, 32);
+            _currentPolygon.AddPointAtEnd(254, 26);
+            _currentPolygon.AddPointAtEnd(246, 114);
+            _currentPolygon.AddPointAtEnd(281, 206);
+            _currentPolygon.AddPointAtEnd(188, 202);
+            _currentPolygon.AddPointAtEnd(211, 77);
+            _currentPolygon.AddPointAtEnd(116, 28);
+            _currentPolygon.AddPointAtEnd(129, 84);
+            _currentPolygon.AddPointAtEnd(66, 79);
+            RepaintCanvas();
+            //_currentPolygon.AddPointAtEnd(, );
+            //_currentPolygon.AddPointAtEnd(, );
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
