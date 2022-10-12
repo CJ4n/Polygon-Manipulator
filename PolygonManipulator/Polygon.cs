@@ -22,7 +22,7 @@
             // ogolnie nie dzialja to constrain, nie wiem za bardzo jak je laczyc
             X -= dx;
             Y -= dy;
-            HasConstraintBeenExecuted = true;
+            //HasConstraintBeenExecuted = true;
             //foreach (Constraint c in Constraints)
             //{
 
@@ -341,6 +341,7 @@
             }
             HasConstraintBeenExecuted = true;
             ExecuteConstrains();
+            HasConstraintBeenExecuted = false;
         }
     }
 
@@ -349,20 +350,20 @@
         //public List<MyPoint> Points { get; set; }
         public Dictionary<int, MyPoint> Points { get; set; }
         private bool _isPolygonCycle = false;
-        const int SearchRadiusPoint = 4;
+        const int SearchRadiusPoint = 8;
         const int SearchRadiusLine = 8;
         private int _pointRadius;
         private Brush _pointColor;
         private Pen _lineColor;
         private Font _font;
-        private class BoundingBox
-        {
-            public int MaxX = int.MinValue;
-            public int MaxY = int.MinValue;
-            public int MinX = int.MaxValue;
-            public int MinY = int.MaxValue;
-        }
-        private BoundingBox _boundingBox;
+        //private class BoundingBox
+        //{
+        //    public int MaxX = int.MinValue;
+        //    public int MaxY = int.MinValue;
+        //    public int MinX = int.MaxValue;
+        //    public int MinY = int.MaxValue;
+        //}
+        //private BoundingBox _boundingBox;
         private int _maxId = 0;
         private MyPoint _lastPoint;
         private MyPoint _firstPoint;
@@ -374,7 +375,7 @@
             //Points = new List<MyPoint>();
             Points = new Dictionary<int, MyPoint>();
 
-            _boundingBox = new BoundingBox();
+            //_boundingBox = new BoundingBox();
             _pointRadius = pointRadius;
             _font = new Font("Arial", 10);
         }

@@ -39,3 +39,10 @@ C:\Users\YanPC\Desktop\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-w
 C:\Users\YanPC\Desktop\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.pdb
 C:\Users\YanPC\Desktop\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.genruntimeconfig.cache
 C:\Users\YanPC\Desktop\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\ref\PolygonManipulator.dll
+C:\Users\yanci\Desktop\PolygonManipulator\PolygonManipulator\bin\Debug\net6.0-windows\dje\PolygonManipulator.resources.dll
+C:\Users\yanci\Desktop\PolygonManipulator\PolygonManipulator\bin\Debug\net6.0-windows\pl-PL\PolygonManipulator.resources.dll
+C:\Users\yanci\Desktop\PolygonManipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.Properties.Resources.resources
+C:\Users\yanci\Desktop\PolygonManipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.Form1.dje.resources
+C:\Users\yanci\Desktop\PolygonManipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.Form1.pl-PL.resources
+C:\Users\yanci\Desktop\PolygonManipulator\PolygonManipulator\obj\Debug\net6.0-windows\dje\PolygonManipulator.resources.dll
+C:\Users\yanci\Desktop\PolygonManipulator\PolygonManipulator\obj\Debug\net6.0-windows\pl-PL\PolygonManipulator.resources.dll

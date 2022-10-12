@@ -8,23 +8,23 @@
     "net6.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\YanPC\\.nuget\\packages\\": {},
+    "C:\\Users\\yanci\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\YanPC\\Desktop\\Polygon-Manipulator\\PolygonManipulator\\PolygonManipulator.csproj",
+      "projectUniqueName": "C:\\Users\\yanci\\Desktop\\PolygonManipulator\\PolygonManipulator\\PolygonManipulator.csproj",
       "projectName": "PolygonManipulator",
-      "projectPath": "C:\\Users\\YanPC\\Desktop\\Polygon-Manipulator\\PolygonManipulator\\PolygonManipulator.csproj",
-      "packagesPath": "C:\\Users\\YanPC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\YanPC\\Desktop\\Polygon-Manipulator\\PolygonManipulator\\obj\\",
+      "projectPath": "C:\\Users\\yanci\\Desktop\\PolygonManipulator\\PolygonManipulator\\PolygonManipulator.csproj",
+      "packagesPath": "C:\\Users\\yanci\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\yanci\\Desktop\\PolygonManipulator\\PolygonManipulator\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\YanPC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\yanci\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
