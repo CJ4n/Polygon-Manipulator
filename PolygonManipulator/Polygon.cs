@@ -17,57 +17,44 @@
             Constraints = new List<Constraint>();
         }
 
-        public void TranslatePoint(int dx, int dy, MyPoint p = null)
+        public void TranslatePoint(int dx, int dy)
         {
-            // ogolnie nie dzialja to constrain, nie wiem za bardzo jak je laczyc
             X -= dx;
             Y -= dy;
-            //HasConstraintBeenExecuted = true;
-            //foreach (Constraint c in Constraints)
-            //{
-
-            //    //c.SecondPoint.TranslateParallel(dx, dy);
-            //    RotatePoint(c.MePoint, c.CorespondingPoint);
-            //    //    if (p != c.CorespondingPoint)
-            //    //        c.CorespondingPoint.TranslatePoint(0, 0, c.MePoint);
-            //}
             ExecuteConstrains();
             HasConstraintBeenExecuted = false;
-
+        }
+        public void JustTranslatePoint(int dx, int dy)
+        {
+            X -= dx;
+            Y -= dy;
         }
         public void ExecuteConstrains()
         {
             foreach (Constraint c in Constraints)
             {
-
-                c.CorespondingPoint.RotatePoint(c.MePoint, c.CorespondingPoint);
-                //c.SecondPoint.TranslateParallel(dx, dy);
-                //RotatePoint(c.MePoint, c.CorespondingPoint);
-                //    if (p != c.CorespondingPoint)
-                //        c.CorespondingPoint.TranslatePoint(0, 0, c.MePoint);
+                c.Execute();
             }
         }
-        //public void TranslateParallel(int dx, int dy)
-        //{
-        //    X -= dx;
-        //    Y -= dy;
-        //    //RotatePoint(this, Next);
-        //}
+
         public void TranslateAsLine(int dx, int dy)
         {
             X -= dx;
             Y -= dy;
             Next.X -= dx;
             Next.Y -= dy;
+
             ExecuteConstrains();
+            this.HasConstraintBeenExecuted = true;
             Next.ExecuteConstrains();
+            this.HasConstraintBeenExecuted = false;
         }
-        public void AddConstraint(MyPoint firstPoint, MyPoint secondPoint, Polygon firstPolygon, Polygon secondPolygon)
+        public void AddConstraintParallel(MyPoint firstPoint, MyPoint secondPoint, Polygon firstPolygon, Polygon secondPolygon)
         {
-            firstPoint.Constraints.Add(new Constraint(firstPoint, secondPoint, firstPolygon, secondPolygon));
-            firstPoint.Next.Constraints.Add(new Constraint(firstPoint, secondPoint, firstPolygon, secondPolygon));
-            secondPoint.Constraints.Add(new Constraint(secondPoint, firstPoint, secondPolygon, firstPolygon));
-            secondPoint.Next.Constraints.Add(new Constraint(secondPoint, firstPoint, secondPolygon, firstPolygon));
+            firstPoint.Constraints.Add(new ConstraintParallel(firstPoint, secondPoint, firstPolygon, secondPolygon));
+            firstPoint.Next.Constraints.Add(new ConstraintParallel(firstPoint, secondPoint, firstPolygon, secondPolygon));
+            secondPoint.Constraints.Add(new ConstraintParallel(secondPoint, firstPoint, secondPolygon, firstPolygon));
+            secondPoint.Next.Constraints.Add(new ConstraintParallel(secondPoint, firstPoint, secondPolygon, firstPolygon));
 
             RotatePoint(firstPoint, secondPoint);
 
@@ -93,7 +80,15 @@
             //}
 
         }
-        private void RotatePoint(MyPoint p1, MyPoint p2)
+
+        public void AddConstraintLength(MyPoint firstPoint, MyPoint secondPoint)
+        {
+            firstPoint.Constraints.Add(new ConstraintLength(firstPoint, secondPoint));
+            secondPoint.Constraints.Add(new ConstraintLength(secondPoint, firstPoint));
+
+            ExecuteConstrains();
+        }
+        public void RotatePoint(MyPoint p1, MyPoint p2)
         {
             if (HasConstraintBeenExecuted)
             {
@@ -118,6 +113,7 @@
             ////Math.Round(v);
             //p2.Next.Y = ((int)Math.Round(u));
             if (p1.Next != p2 && p2.Next != p1)
+            //if (false)
             {
                 double x1 = p2.X;
                 double x2 = p2.Next.X;
@@ -345,12 +341,57 @@
             ExecuteConstrains();
             HasConstraintBeenExecuted = false;
         }
+        public void DeleteAssociatedConstraints()
+        {
+            //foreach (var c in Constraints)
+            int len = Constraints.Count();
+            for (int i = 0; i < len; ++i)
+            {
+                //Constraints[i].MePoint.DeleteConstraintsAssociatedWithPoint(this);
+                //if (i >= Constraints.Count())
+                //    continue;
+                //Constraints[i].CorespondingPoint.DeleteConstraintsAssociatedWithPoint(this);
+                //Constraints[i].CorespondingPoint.Next.DeleteConstraintsAssociatedWithPoint(this);
+                Constraints[i].DeleteConstraint(this);
+                len = Constraints.Count();
+            }
+            Next.DeleteConstraintsAssociatedWithPoint(this);
+            Prev.DeleteConstraintsAssociatedWithPoint(this);
+
+
+        }
+        public void DeleteConstraintsAssociatedWithPoint(MyPoint point)
+        {
+            List<Constraint> constraintsToDelete = new List<Constraint>();
+            foreach (var c in Constraints)
+            {
+                //if (c.MePoint == point || c.CorespondingPoint == point)
+
+                if (c.AssertIfDelete(this))
+                {
+                    //pointsToDelete.Add(c)
+                    constraintsToDelete.Add(c);
+                    //Constraints.Remove(c);
+                }
+            }
+            foreach (var c in constraintsToDelete)
+            {
+                Constraints.Remove(c);
+            }
+        }
+        public void PaintConstraints(Graphics g)
+        {
+            foreach (var c in Constraints)
+            {
+                c.PaintConstraint(g);
+            }
+        }
     }
 
     public class Polygon
     {
         public Dictionary<int, MyPoint> Points { get; set; }
-        private bool _isPolygonCycle = false;
+        public bool IsPolygonCycle = false;
         const int SearchRadiusPoint = 8;
         const int SearchRadiusLine = 8;
         private int _pointRadius;
@@ -361,26 +402,67 @@
         private MyPoint _lastPoint;
         private MyPoint _firstPoint;
 
+        public void MyDrawLine(int x, int y, int x2, int y2, Bitmap bitmap)
+        {
+            int w = x2 - x;
+            int h = y2 - y;
+            int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
+            if (w < 0) dx1 = -1; else if (w > 0) dx1 = 1;
+            if (h < 0) dy1 = -1; else if (h > 0) dy1 = 1;
+            if (w < 0) dx2 = -1; else if (w > 0) dx2 = 1;
+            int longest = Math.Abs(w);
+            int shortest = Math.Abs(h);
+            if (!(longest > shortest))
+            {
+                longest = Math.Abs(h);
+                shortest = Math.Abs(w);
+                if (h < 0) dy2 = -1; else if (h > 0) dy2 = 1;
+                dx2 = 0;
+            }
+            int numerator = longest >> 1;
+            for (int i = 0; i <= longest; i++)
+            {
+                if (!(x < 0 || y < 0)) { bitmap.SetPixel(x, y, Color.Black); }
+
+                numerator += shortest;
+                if (!(numerator < longest))
+                {
+                    numerator -= longest;
+                    x += dx1;
+                    y += dy1;
+                }
+                else
+                {
+                    x += dx2;
+                    y += dy2;
+                }
+            }
+        }
+        public void OwnPaint(Bitmap bitmap, Graphics g)
+        {
+            foreach (var p in Points)
+            {
+                MyDrawLine(p.Value.X, p.Value.Y, p.Value.Next.X, p.Value.Next.Y, bitmap);
+                MyDrawLine(p.Value.X + 2, p.Value.Y, p.Value.Next.X + 2, p.Value.Next.Y, bitmap);
+                MyDrawLine(p.Value.X + 1, p.Value.Y, p.Value.Next.X + 1, p.Value.Next.Y, bitmap);
+                MyDrawLine(p.Value.X, p.Value.Y + 1, p.Value.Next.X, p.Value.Next.Y + 1, bitmap);
+                MyDrawLine(p.Value.X, p.Value.Y + 2, p.Value.Next.X, p.Value.Next.Y + 2, bitmap);
+
+                g.FillEllipse(Brushes.Black, p.Value.X - _pointRadius, p.Value.Y - _pointRadius, _pointRadius * 2, _pointRadius * 2);
+                g.DrawString(p.Value.Id.ToString(), _font, Brushes.Blue, new Point(p.Value.X, p.Value.Y));
+                p.Value.PaintConstraints(g);
+            }
+        }
         public Polygon(Pen line, Brush point, int pointRadius)
         {
             _lineColor = line;
             _pointColor = point;
-            //Points = new List<MyPoint>();
             Points = new Dictionary<int, MyPoint>();
-
-            //_boundingBox = new BoundingBox();
             _pointRadius = pointRadius;
             _font = new Font("Arial", 10);
         }
         public MyPoint GetPointFromId(int id)
         {
-            //foreach (var id_point in Points)
-            //{
-            //    MyPoint p = id_point.Value;
-            //    if (p.Id == id)
-            //    {
-            //        return p;
-            //    }
             //}
             var res = Points.TryGetValue(id, out MyPoint point);
             if (res == false)
@@ -392,25 +474,23 @@
         }
         public int AddPointAtEnd(int x, int y)
         {
-            if (_isPolygonCycle)
+            if (IsPolygonCycle)
             {
                 return -1; // Can't add more points to polygon, polygon is already a cycle
             }
             if (Points.Count != 0)
             {
                 MyPoint lastPoint = _lastPoint;
-                //MyPoint lastPoint = Points.Last();
                 foreach (var id_p in Points) // If new point closes cycle 
                 {
                     MyPoint p = id_p.Value;
-                    //MyPoint firstPoint = Points.First();
                     MyPoint firstPoint = _firstPoint;
                     if (AreTwoPointsNear(x, y, firstPoint.X, firstPoint.Y))
                     {
+                        if (Points.Count < 3) return 1;
                         lastPoint.Next = firstPoint;
                         firstPoint.Prev = lastPoint;
-                        _isPolygonCycle = true;
-                        //MessageBox.Show("end");
+                        IsPolygonCycle = true;
 
                         return 0; // Creation of polygon has just been finished
                     }
@@ -420,7 +500,6 @@
                 Points.Add(newPoint.Id, newPoint);
 
                 _lastPoint = newPoint;
-                //lastPoint = Points.Last();
 
             }
             else
@@ -431,12 +510,10 @@
                 Points.Add(newPoint.Id, newPoint);
             }
 
-            //UpdateBoundingBoxAfterTranslation();
             return 1; // Added new point to polygon
         }
         public bool AreTwoPointsNear(int x1, int y1, int x2, int y2)
         {
-            //return Math.Abs(x1 - x2) < radius && Math.Abs(y1 - y2) < radius;
             return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) <= SearchRadiusPoint * SearchRadiusPoint;
         }
         public bool IsPointInBoundingBox(Point point)
@@ -445,8 +522,6 @@
             {
                 return false;
             }
-            //// todo: fix bounding box sth wrong when polygon goes outside of canvas
-            //return _boundingBox.MinX < point.X && _boundingBox.MaxX > point.X && _boundingBox.MinY < point.Y && _boundingBox.MaxY > point.Y;
 
             var c = new ConvexHullAlgorithms();
             (double, double)[] points = new (double, double)[Points.Count()];
@@ -463,43 +538,8 @@
             }
             var ret = c.IsPointInPolygon(res, (point.X, point.Y));
             return ret;
-            //public static bool IsPointInPolygon4(PointF[] Points, PointF point)
-            //{
-            //    bool result = false;
-            //    int j = Points.Count() - 1;
-            //    for (int i = 0; i < Points.Count(); i++)
-            //    {
-            //        if (Points[i].Y < point.Y && Points[j].Y >= point.Y || Points[j].Y < point.Y && Points[i].Y >= point.Y)
-            //        {
-            //            if (Points[i].X + (point.Y - Points[i].Y) / (Points[j].Y - Points[i].Y) * (Points[j].X - Points[i].X) < point.X)
-            //            {
-            //                result = !result;
-            //            }
-            //        }
-            //        j = i;
-            //    }
-            //    return result;
-            //}
+
         }
-        //public void UpdateBoundingBoxAfterTranslation()
-        //{
-        //    int MaxX = int.MinValue;
-        //    int MaxY = int.MinValue;
-        //    int MinX = int.MaxValue;
-        //    int MinY = int.MaxValue;
-        //    foreach (var id_point in Points)
-        //    {
-        //        MyPoint p = id_point.Value;
-        //        MaxX = Math.Max(MaxX, p.X);
-        //        MinX = Math.Min(MinX, p.X);
-        //        MaxY = Math.Max(MaxY, p.Y);
-        //        MinY = Math.Min(MinY, p.Y);
-        //    }
-        //    _boundingBox.MaxX = MaxX;
-        //    _boundingBox.MinX = MinX;
-        //    _boundingBox.MaxY = MaxY;
-        //    _boundingBox.MinY = MinY;
-        //}
         // Return points id, if click is within Radius from some point, otherwise -1
         public int IsClickNearSomePoint(Point p, int id = -1)
         {
@@ -613,6 +653,7 @@
                         g.DrawLine(lineColor, new Point(point.X, point.Y), new Point(point.Next.X, point.Next.Y));
                     }
                     g.DrawString(point.Id.ToString(), _font, Brushes.Blue, new Point(point.X, point.Y));
+                    point.PaintConstraints(g);
                 }
             }
             else if (lastSelectedElement == LastSelectedElement.LINE)
@@ -641,6 +682,7 @@
                         }
                     }
                     g.DrawString(point.Id.ToString(), _font, Brushes.Blue, new Point(point.X, point.Y));
+                    point.PaintConstraints(g);
                 }
             }
             else if (lastSelectedElement == LastSelectedElement.POLYGON)
@@ -654,6 +696,7 @@
                         g.DrawLine(lineColor, new Point(point.X, point.Y), new Point(point.Next.X, point.Next.Y));
                     }
                     g.DrawString(point.Id.ToString(), _font, Brushes.Brown, new Point(point.X, point.Y));
+                    point.PaintConstraints(g);
                 }
             }
         }
@@ -664,10 +707,7 @@
             {
                 return;
             }
-            //point.X -= dx;
-            //point.Y -= dy;
             point.TranslatePoint(dx, dy);
-            //UpdateBoundingBoxAfterTranslation();
         }
         public void TranslateLine(int dx, int dy, int id)
         {
@@ -687,16 +727,21 @@
             foreach (var id_point in Points)
             {
                 MyPoint point = id_point.Value;
-                TranslatePoint(dx, dy, point.Id);
+                //TranslatePoint(dx, dy, point.Id);
+                point.JustTranslatePoint(dx, dy);
             }
         }
         public void DeletePoint(int id)
         {
             var p = GetPointFromId(id);
+
+            //p.Prev.Constraints = new List<Constraint>();
             if (p == null) // new such id
             {
                 return;
             }
+            p.DeleteAssociatedConstraints();
+            p.Constraints = new List<Constraint>();
             if (Points.Count() <= 3) // polygon would degenerate
             {
                 Points.Clear();
@@ -737,18 +782,11 @@
             int x = (p1.X + p2.X) / 2;
             int y = (p1.Y + p2.Y) / 2;
             MyPoint newPoint = new MyPoint(x, y, _maxId++, p1, p2);
-            //if (p2 == _lastPoint)
-            //{
-            //    _lastPoint = newPoint;
-            //}
-            //if (p2 == _lastPoint)
-            //{
-            //}
+
             p1.Next = newPoint;
             p2.Prev = newPoint;
 
             Points.Add(newPoint.Id, newPoint);
-
         }
     }
 }

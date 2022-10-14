@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\JAN CICHOMSKI\\STUDIA\\STUDIA_SEMESTR_5_2022_ZIMA\\Grafika Komputerowa 1\\lab1\\PolygonManipulator\\PolygonManipulator\\PolygonManipulator.csproj": {}
+    "C:\\Users\\YanPC\\Desktop\\Polygon-Manipulator\\PolygonManipulator\\PolygonManipulator.csproj": {}
   },
   "projects": {
-    "C:\\JAN CICHOMSKI\\STUDIA\\STUDIA_SEMESTR_5_2022_ZIMA\\Grafika Komputerowa 1\\lab1\\PolygonManipulator\\PolygonManipulator\\PolygonManipulator.csproj": {
+    "C:\\Users\\YanPC\\Desktop\\Polygon-Manipulator\\PolygonManipulator\\PolygonManipulator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\JAN CICHOMSKI\\STUDIA\\STUDIA_SEMESTR_5_2022_ZIMA\\Grafika Komputerowa 1\\lab1\\PolygonManipulator\\PolygonManipulator\\PolygonManipulator.csproj",
+        "projectUniqueName": "C:\\Users\\YanPC\\Desktop\\Polygon-Manipulator\\PolygonManipulator\\PolygonManipulator.csproj",
         "projectName": "PolygonManipulator",
-        "projectPath": "C:\\JAN CICHOMSKI\\STUDIA\\STUDIA_SEMESTR_5_2022_ZIMA\\Grafika Komputerowa 1\\lab1\\PolygonManipulator\\PolygonManipulator\\PolygonManipulator.csproj",
-        "packagesPath": "C:\\Users\\yanci\\.nuget\\packages\\",
-        "outputPath": "C:\\JAN CICHOMSKI\\STUDIA\\STUDIA_SEMESTR_5_2022_ZIMA\\Grafika Komputerowa 1\\lab1\\PolygonManipulator\\PolygonManipulator\\obj\\",
+        "projectPath": "C:\\Users\\YanPC\\Desktop\\Polygon-Manipulator\\PolygonManipulator\\PolygonManipulator.csproj",
+        "packagesPath": "C:\\Users\\YanPC\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\YanPC\\Desktop\\Polygon-Manipulator\\PolygonManipulator\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\yanci\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\YanPC\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -61,7 +61,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.305\\RuntimeIdentifierGraph.json"
         }
       }
     }

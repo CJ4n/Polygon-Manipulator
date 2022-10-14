@@ -34,12 +34,11 @@
             this.canvasContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AddNewPolygonToCanvasButton = new System.Windows.Forms.Button();
             this.ClearCanvasButton = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.MovePointsRadioButton = new System.Windows.Forms.RadioButton();
-            this.AddPointsRadioButton = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.Scene1Button = new System.Windows.Forms.Button();
+            this.Scene2Button = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Canvas
@@ -72,50 +71,47 @@
             this.ClearCanvasButton.UseVisualStyleBackColor = true;
             this.ClearCanvasButton.Click += new System.EventHandler(this.ClearCanvasButton_Click);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.MovePointsRadioButton);
-            this.groupBox1.Controls.Add(this.AddPointsRadioButton);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
-            // 
-            // MovePointsRadioButton
-            // 
-            resources.ApplyResources(this.MovePointsRadioButton, "MovePointsRadioButton");
-            this.MovePointsRadioButton.Name = "MovePointsRadioButton";
-            this.MovePointsRadioButton.TabStop = true;
-            this.MovePointsRadioButton.UseVisualStyleBackColor = true;
-            this.MovePointsRadioButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MovePointsRadioButton_MouseClick);
-            // 
-            // AddPointsRadioButton
-            // 
-            resources.ApplyResources(this.AddPointsRadioButton, "AddPointsRadioButton");
-            this.AddPointsRadioButton.Name = "AddPointsRadioButton";
-            this.AddPointsRadioButton.TabStop = true;
-            this.AddPointsRadioButton.UseVisualStyleBackColor = true;
-            this.AddPointsRadioButton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.AddPointsRadioButton_MouseClick);
-            // 
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
+            // checkBox1
+            // 
+            resources.ApplyResources(this.checkBox1, "checkBox1");
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // Scene1Button
+            // 
+            resources.ApplyResources(this.Scene1Button, "Scene1Button");
+            this.Scene1Button.Name = "Scene1Button";
+            this.Scene1Button.UseVisualStyleBackColor = true;
+            this.Scene1Button.Click += new System.EventHandler(this.Scene1Button_Click);
+            // 
+            // Scene2Button
+            // 
+            resources.ApplyResources(this.Scene2Button, "Scene2Button");
+            this.Scene2Button.Name = "Scene2Button";
+            this.Scene2Button.UseVisualStyleBackColor = true;
+            this.Scene2Button.Click += new System.EventHandler(this.Scene2Button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.Scene2Button);
+            this.Controls.Add(this.Scene1Button);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.Canvas);
             this.Controls.Add(this.AddNewPolygonToCanvasButton);
             this.Controls.Add(this.ClearCanvasButton);
             this.Name = "Form1";
             this.TransparencyKey = System.Drawing.Color.Red;
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -126,10 +122,10 @@
         private PictureBox Canvas;
         private Button AddNewPolygonToCanvasButton;
         private Button ClearCanvasButton;
-        private GroupBox groupBox1;
-        private RadioButton MovePointsRadioButton;
-        private RadioButton AddPointsRadioButton;
-        private Label label1;
         private ContextMenuStrip canvasContextMenuStrip;
+        private Label label1;
+        private CheckBox checkBox1;
+        private Button Scene1Button;
+        private Button Scene2Button;
     }
 }
