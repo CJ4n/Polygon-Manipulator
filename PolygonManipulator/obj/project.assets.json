@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\yanci\\Desktop\\PolygonManipulator\\PolygonManipulator\\PolygonManipulator.csproj",
+      "projectUniqueName": "C:\\JAN CICHOMSKI\\STUDIA\\STUDIA_SEMESTR_5_2022_ZIMA\\Grafika Komputerowa 1\\lab1\\PolygonManipulator\\PolygonManipulator\\PolygonManipulator.csproj",
       "projectName": "PolygonManipulator",
-      "projectPath": "C:\\Users\\yanci\\Desktop\\PolygonManipulator\\PolygonManipulator\\PolygonManipulator.csproj",
+      "projectPath": "C:\\JAN CICHOMSKI\\STUDIA\\STUDIA_SEMESTR_5_2022_ZIMA\\Grafika Komputerowa 1\\lab1\\PolygonManipulator\\PolygonManipulator\\PolygonManipulator.csproj",
       "packagesPath": "C:\\Users\\yanci\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\yanci\\Desktop\\PolygonManipulator\\PolygonManipulator\\obj\\",
+      "outputPath": "C:\\JAN CICHOMSKI\\STUDIA\\STUDIA_SEMESTR_5_2022_ZIMA\\Grafika Komputerowa 1\\lab1\\PolygonManipulator\\PolygonManipulator\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -59,6 +59,8 @@
             Y -= dy;
             Next.X -= dx;
             Next.Y -= dy;
+            ExecuteConstrains();
+            Next.ExecuteConstrains();
         }
         public void AddConstraint(MyPoint firstPoint, MyPoint secondPoint, Polygon firstPolygon, Polygon secondPolygon)
         {
@@ -347,7 +349,6 @@
 
     public class Polygon
     {
-        //public List<MyPoint> Points { get; set; }
         public Dictionary<int, MyPoint> Points { get; set; }
         private bool _isPolygonCycle = false;
         const int SearchRadiusPoint = 8;
@@ -356,14 +357,6 @@
         private Brush _pointColor;
         private Pen _lineColor;
         private Font _font;
-        //private class BoundingBox
-        //{
-        //    public int MaxX = int.MinValue;
-        //    public int MaxY = int.MinValue;
-        //    public int MinX = int.MaxValue;
-        //    public int MinY = int.MaxValue;
-        //}
-        //private BoundingBox _boundingBox;
         private int _maxId = 0;
         private MyPoint _lastPoint;
         private MyPoint _firstPoint;
