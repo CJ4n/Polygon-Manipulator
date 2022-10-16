@@ -13,7 +13,7 @@
             var asList = new List<(double, double)>(new HashSet<(double, double)>(points));
             asList.Sort();
 
-            if (asList.Count <= 3)
+            if (asList.Count < 3)
                 return null;
 
             var lowerList = new List<(double, double)>();

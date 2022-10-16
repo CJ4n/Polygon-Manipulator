@@ -311,7 +311,7 @@
             }
             else return point;
         }
-        public int AddPointAtEnd(int x, int y)
+        public int AddPointAtEnd(float x, float y)
         {
             if (IsPolygonCycle)
             {

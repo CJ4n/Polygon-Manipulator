@@ -37,7 +37,7 @@ namespace PolygonManipulator
             _currentPolygon = null;
             AddNewPolygonToCanvasButton_MouseClick(null, null);
             RepaintCanvas();
-            Scene1Button_Click(null, null);
+            Scene2Button_Click(null, null);
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -486,6 +486,7 @@ namespace PolygonManipulator
         }
         private void Scene1Button_Click(object sender, EventArgs e)
         {
+            AddNewPolygonToCanvasButton_MouseClick(null, null);
             _currentPolygon.AddPointAtEnd(66, 79);
             _currentPolygon.AddPointAtEnd(75, 140);
             _currentPolygon.AddPointAtEnd(435, 165);
@@ -503,12 +504,13 @@ namespace PolygonManipulator
         }
         private void Scene2Button_Click(object sender, EventArgs e)
         {
-            int a = 3;
+            int baseYShift = 200;
             //wheel 0
-            _currentPolygon.AddPointAtEnd(200, 200);
-            _currentPolygon.AddPointAtEnd(230, 200);
-            _currentPolygon.AddPointAtEnd(260, 200);
-            _currentPolygon.AddPointAtEnd(200, 200);
+            AddNewPolygonToCanvasButton_MouseClick(null, null);
+            _currentPolygon.AddPointAtEnd(230, baseYShift + 230);
+            _currentPolygon.AddPointAtEnd(230, baseYShift + 200);
+            _currentPolygon.AddPointAtEnd(230, baseYShift + 170);
+            _currentPolygon.AddPointAtEnd(230, baseYShift + 230);
             var p0_wheel0 = _currentPolygon.GetPointFromId(0);
             var p2_wheel0 = _currentPolygon.GetPointFromId(2);
             var wheel0 = _currentPolygon;
@@ -516,10 +518,10 @@ namespace PolygonManipulator
 
             //wheel 1
             AddNewPolygonToCanvasButton_MouseClick(null, null);
-            _currentPolygon.AddPointAtEnd(300, 200);
-            _currentPolygon.AddPointAtEnd(330, 200);
-            _currentPolygon.AddPointAtEnd(360, 200);
-            _currentPolygon.AddPointAtEnd(300, 200);
+            _currentPolygon.AddPointAtEnd(330, baseYShift + 230);
+            _currentPolygon.AddPointAtEnd(330, baseYShift + 200);
+            _currentPolygon.AddPointAtEnd(330, baseYShift + 170);
+            _currentPolygon.AddPointAtEnd(330, baseYShift + 230);
             var p0_wheel1 = _currentPolygon.GetPointFromId(0);
             var p2_wheel1 = _currentPolygon.GetPointFromId(2);
             var wheel1 = _currentPolygon;
@@ -527,10 +529,10 @@ namespace PolygonManipulator
 
             //wheel 2
             AddNewPolygonToCanvasButton_MouseClick(null, null);
-            _currentPolygon.AddPointAtEnd(400, 200);
-            _currentPolygon.AddPointAtEnd(430, 200);
-            _currentPolygon.AddPointAtEnd(460, 200);
-            _currentPolygon.AddPointAtEnd(400, 200);
+            _currentPolygon.AddPointAtEnd(430, baseYShift + 230);
+            _currentPolygon.AddPointAtEnd(430, baseYShift + 200);
+            _currentPolygon.AddPointAtEnd(430, baseYShift + 170);
+            _currentPolygon.AddPointAtEnd(430, baseYShift + 230);
             var p0_wheel2 = _currentPolygon.GetPointFromId(0);
             var p2_wheel2 = _currentPolygon.GetPointFromId(2);
             var wheel2 = _currentPolygon;
@@ -538,10 +540,10 @@ namespace PolygonManipulator
 
             //wheel 3
             AddNewPolygonToCanvasButton_MouseClick(null, null);
-            _currentPolygon.AddPointAtEnd(500, 200);
-            _currentPolygon.AddPointAtEnd(530, 200);
-            _currentPolygon.AddPointAtEnd(560, 200);
-            _currentPolygon.AddPointAtEnd(500, 200);
+            _currentPolygon.AddPointAtEnd(530, baseYShift + 230);
+            _currentPolygon.AddPointAtEnd(530, baseYShift + 200);
+            _currentPolygon.AddPointAtEnd(530, baseYShift + 170);
+            _currentPolygon.AddPointAtEnd(530, baseYShift + 230);
             var p0_wheel3 = _currentPolygon.GetPointFromId(0);
             var p2_wheel3 = _currentPolygon.GetPointFromId(2);
             var wheel3 = _currentPolygon;
@@ -549,22 +551,72 @@ namespace PolygonManipulator
 
             //wheel 4
             AddNewPolygonToCanvasButton_MouseClick(null, null);
-            _currentPolygon.AddPointAtEnd(600, 200);
-            _currentPolygon.AddPointAtEnd(630, 200);
-            _currentPolygon.AddPointAtEnd(660, 200);
-            _currentPolygon.AddPointAtEnd(600, 200);
+            _currentPolygon.AddPointAtEnd(630, baseYShift + 230);
+            _currentPolygon.AddPointAtEnd(630, baseYShift + 200);
+            _currentPolygon.AddPointAtEnd(630, baseYShift + 170);
+            _currentPolygon.AddPointAtEnd(630, baseYShift + 230);
             var p0_wheel4 = _currentPolygon.GetPointFromId(0);
             var p2_wheel4 = _currentPolygon.GetPointFromId(2);
             var wheel4 = _currentPolygon;
             p0_wheel4.AddConstraintParallel(p0_wheel4, p2_wheel4, wheel4, wheel4);
 
+            //connecting rod
+            AddNewPolygonToCanvasButton_MouseClick(null, null);
+            _currentPolygon.AddPointAtEnd(230, baseYShift + 228);
+            _currentPolygon.AddPointAtEnd(630, baseYShift + 228);
+            _currentPolygon.AddPointAtEnd(630, baseYShift + 172);
+            _currentPolygon.AddPointAtEnd(230, baseYShift + 172);
+            _currentPolygon.AddPointAtEnd(230, baseYShift + 228);
+            var p3_connectingRod = _currentPolygon.GetPointFromId(3);
+            var p1_connectingRod = _currentPolygon.GetPointFromId(1);
+            var ConnectingRod = _currentPolygon;
+            p1_connectingRod.AddConstraintParallel(p1_connectingRod, p3_connectingRod, ConnectingRod, ConnectingRod);
+
+            //some box
+            AddNewPolygonToCanvasButton_MouseClick(null, null);
+            _currentPolygon.AddPointAtEnd(215, baseYShift + 170);
+            _currentPolygon.AddPointAtEnd(645, baseYShift + 170);
+            _currentPolygon.AddPointAtEnd(645, baseYShift + 140);
+            _currentPolygon.AddPointAtEnd(215, baseYShift + 140);
+            _currentPolygon.AddPointAtEnd(215, baseYShift + 170);
+
+            //main hulk
+            AddNewPolygonToCanvasButton_MouseClick(null, null);
+            _currentPolygon.AddPointAtEnd(645, baseYShift + 140);
+            _currentPolygon.AddPointAtEnd(645, baseYShift + 0);
+            _currentPolygon.AddPointAtEnd(572.5f, baseYShift + -15);
+            _currentPolygon.AddPointAtEnd(500, baseYShift + 0);
+            _currentPolygon.AddPointAtEnd(500, baseYShift + 70);
+            //chimny
+            _currentPolygon.AddPointAtEnd(320, baseYShift + 70);
+            _currentPolygon.AddPointAtEnd(320, baseYShift + 20);
+            _currentPolygon.AddPointAtEnd(330, baseYShift + 10);
+            _currentPolygon.AddPointAtEnd(325, baseYShift + 0);
+            _currentPolygon.AddPointAtEnd(295, baseYShift + 0);
+            _currentPolygon.AddPointAtEnd(290, baseYShift + 10);
+            _currentPolygon.AddPointAtEnd(300, baseYShift + 20);
+            _currentPolygon.AddPointAtEnd(300, baseYShift + 70);
+            //chimny
+            _currentPolygon.AddPointAtEnd(215, baseYShift + 70);
+            _currentPolygon.AddPointAtEnd(200, baseYShift + 105);
+            _currentPolygon.AddPointAtEnd(215, baseYShift + 140);
+            _currentPolygon.AddPointAtEnd(500, baseYShift + 140);
+            _currentPolygon.AddPointAtEnd(645, baseYShift + 140);
+
+            //window
+            AddNewPolygonToCanvasButton_MouseClick(null, null);
+            _currentPolygon.AddPointAtEnd(610, baseYShift + 60);
+            _currentPolygon.AddPointAtEnd(610, baseYShift + 20);
+            _currentPolygon.AddPointAtEnd(530, baseYShift + 20);
+            _currentPolygon.AddPointAtEnd(530, baseYShift + 60);
+            _currentPolygon.AddPointAtEnd(610, baseYShift + 60);
 
             // steer
             AddNewPolygonToCanvasButton_MouseClick(null, null);
-            _currentPolygon.AddPointAtEnd(500, 500);
-            _currentPolygon.AddPointAtEnd(525, 450);
-            _currentPolygon.AddPointAtEnd(550, 500);
-            _currentPolygon.AddPointAtEnd(500, 500);
+            _currentPolygon.AddPointAtEnd(500, baseYShift + 300);
+            _currentPolygon.AddPointAtEnd(525, baseYShift + 250);
+            _currentPolygon.AddPointAtEnd(550, baseYShift + 300);
+            _currentPolygon.AddPointAtEnd(500, baseYShift + 300);
             var p0_steer = _currentPolygon.GetPointFromId(0);
             var steer = _currentPolygon;
             p0_steer.AddConstraintParallel(p2_wheel0, p0_steer, wheel0, steer);
@@ -572,14 +624,14 @@ namespace PolygonManipulator
             p0_steer.AddConstraintParallel(p2_wheel2, p0_steer, wheel0, steer);
             p0_steer.AddConstraintParallel(p2_wheel3, p0_steer, wheel0, steer);
             p0_steer.AddConstraintParallel(p2_wheel4, p0_steer, wheel0, steer);
+            p0_steer.AddConstraintParallel(p1_connectingRod, p0_steer, ConnectingRod, steer);
+
 
             RepaintCanvas();
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             this.Canvas.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
-
         }
     }
 }
