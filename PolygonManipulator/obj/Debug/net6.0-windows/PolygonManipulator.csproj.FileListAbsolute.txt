@@ -70,3 +70,29 @@ C:\JAN CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Po
 C:\JAN CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\PolygonManipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.pdb
 C:\JAN CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\PolygonManipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.genruntimeconfig.cache
 C:\JAN CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\PolygonManipulator\PolygonManipulator\obj\Debug\net6.0-windows\ref\PolygonManipulator.dll
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\bin\Debug\net6.0-windows\PolygonManipulator.exe
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\bin\Debug\net6.0-windows\PolygonManipulator.deps.json
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\bin\Debug\net6.0-windows\PolygonManipulator.runtimeconfig.json
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\bin\Debug\net6.0-windows\PolygonManipulator.dll
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\bin\Debug\net6.0-windows\PolygonManipulator.pdb
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\bin\Debug\net6.0-windows\dje\PolygonManipulator.resources.dll
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\bin\Debug\net6.0-windows\pl-PL\PolygonManipulator.resources.dll
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.csproj.AssemblyReference.cache
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.Form1.resources
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.Properties.Resources.resources
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.Form1.dje.resources
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.Form1.pl-PL.resources
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.csproj.GenerateResource.cache
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.GeneratedMSBuildEditorConfig.editorconfig
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.AssemblyInfoInputs.cache
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.AssemblyInfo.cs
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.csproj.CoreCompileInputs.cache
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\dje\PolygonManipulator.resources.dll
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\pl-PL\PolygonManipulator.resources.dll
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.dll
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\refint\PolygonManipulator.dll
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.pdb
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.genruntimeconfig.cache
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\ref\PolygonManipulator.dll
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.LengthConstraintDialogBox.resources
+D:\JAN_CICHOMSKI\STUDIA\STUDIA_SEMESTR_5_2022_ZIMA\Grafika Komputerowa 1\lab1\Polygon-Manipulator\PolygonManipulator\obj\Debug\net6.0-windows\PolygonManipulator.LengthConstraintInputForm.resources

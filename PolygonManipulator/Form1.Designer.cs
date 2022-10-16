@@ -34,10 +34,10 @@
             this.canvasContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AddNewPolygonToCanvasButton = new System.Windows.Forms.Button();
             this.ClearCanvasButton = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.Scene1Button = new System.Windows.Forms.Button();
             this.Scene2Button = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,6 +53,7 @@
             // 
             // canvasContextMenuStrip
             // 
+            this.canvasContextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.canvasContextMenuStrip.Name = "contextMenuStrip1";
             resources.ApplyResources(this.canvasContextMenuStrip, "canvasContextMenuStrip");
             // 
@@ -70,12 +71,6 @@
             this.ClearCanvasButton.Name = "ClearCanvasButton";
             this.ClearCanvasButton.UseVisualStyleBackColor = true;
             this.ClearCanvasButton.Click += new System.EventHandler(this.ClearCanvasButton_Click);
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // checkBox1
             // 
@@ -98,14 +93,21 @@
             this.Scene2Button.UseVisualStyleBackColor = true;
             this.Scene2Button.Click += new System.EventHandler(this.Scene2Button_Click);
             // 
+            // button1
+            // 
+            resources.ApplyResources(this.button1, "button1");
+            this.button1.Name = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.Scene2Button);
             this.Controls.Add(this.Scene1Button);
             this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.Canvas);
             this.Controls.Add(this.AddNewPolygonToCanvasButton);
             this.Controls.Add(this.ClearCanvasButton);
@@ -123,9 +125,9 @@
         private Button AddNewPolygonToCanvasButton;
         private Button ClearCanvasButton;
         private ContextMenuStrip canvasContextMenuStrip;
-        private Label label1;
         private CheckBox checkBox1;
         private Button Scene1Button;
         private Button Scene2Button;
+        private Button button1;
     }
 }
