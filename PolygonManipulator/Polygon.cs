@@ -7,6 +7,7 @@
         public MyPoint Prev, Next;
         public List<Constraint> Constraints;
         public bool HasConstraintBeenExecuted = false;
+        public static int MaxConstraitnId = 0;
         public MyPoint(float x, float y, int id, MyPoint prev, MyPoint next)
         {
             Id = id;
@@ -49,16 +50,18 @@
         }
         public void AddConstraintParallel(MyPoint firstPoint, MyPoint secondPoint, Polygon firstPolygon, Polygon secondPolygon)
         {
-            firstPoint.Constraints.Add(new ConstraintParallel(firstPoint, secondPoint, firstPolygon, secondPolygon));
-            firstPoint.Next.Constraints.Add(new ConstraintParallel(firstPoint, secondPoint, firstPolygon, secondPolygon));
-            secondPoint.Constraints.Add(new ConstraintParallel(secondPoint, firstPoint, secondPolygon, firstPolygon));
-            secondPoint.Next.Constraints.Add(new ConstraintParallel(secondPoint, firstPoint, secondPolygon, firstPolygon));
+            firstPoint.Constraints.Add(new ConstraintParallel(firstPoint, secondPoint, firstPolygon, secondPolygon, MaxConstraitnId));
+            firstPoint.Next.Constraints.Add(new ConstraintParallel(firstPoint, secondPoint, firstPolygon, secondPolygon, MaxConstraitnId));
+            secondPoint.Constraints.Add(new ConstraintParallel(secondPoint, firstPoint, secondPolygon, firstPolygon, MaxConstraitnId));
+            secondPoint.Next.Constraints.Add(new ConstraintParallel(secondPoint, firstPoint, secondPolygon, firstPolygon, MaxConstraitnId));
+            MaxConstraitnId++;
             RotatePoint(firstPoint, secondPoint);
         }
         public void AddConstraintLength(MyPoint firstPoint, MyPoint secondPoint, float length)
         {
-            firstPoint.Constraints.Add(new ConstraintLength(firstPoint, secondPoint, length));
-            secondPoint.Constraints.Add(new ConstraintLength(secondPoint, firstPoint, length));
+            firstPoint.Constraints.Add(new ConstraintLength(firstPoint, secondPoint, length,MaxConstraitnId));
+            secondPoint.Constraints.Add(new ConstraintLength(secondPoint, firstPoint, length,MaxConstraitnId));
+            MaxConstraitnId++; 
             ExecuteConstrains();
         }
         public void RotatePoint(MyPoint p1, MyPoint p2)
@@ -218,9 +221,12 @@
         }
         public void PaintConstraints(Graphics g)
         {
+            int iter = 0;
             foreach (var c in Constraints)
             {
-                c.PaintConstraint(g);
+                var offset = new PointF(20 * iter,iter);
+                c.PaintConstraint(g, offset);
+                iter++;
             }
         }
     }

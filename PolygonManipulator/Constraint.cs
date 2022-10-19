@@ -5,7 +5,7 @@
         public void Execute();
         public void DeleteConstraint();
         public bool AssertIfDelete(MyPoint point);
-        public void PaintConstraint(Graphics g);
+        public void PaintConstraint(Graphics g,PointF point);
     }
 
     public class ConstraintParallel : Constraint
@@ -14,12 +14,15 @@
         public MyPoint CorespondingPoint;
         public Polygon MePolygon;
         public Polygon CorespondingPolygon;
-        public ConstraintParallel(MyPoint firstPoint, MyPoint secondPoint, Polygon firstPolygon, Polygon secondPolygon)
+        public static int MaxId;
+        private int _id;
+        public ConstraintParallel(MyPoint firstPoint, MyPoint secondPoint, Polygon firstPolygon, Polygon secondPolygon,int id)
         {
             MePoint = firstPoint;
             CorespondingPoint = secondPoint;
             MePolygon = firstPolygon;
             CorespondingPolygon = secondPolygon;
+            _id = id;
         }
         public void Execute()
         {
@@ -40,9 +43,9 @@
         {
             return MePoint == point || CorespondingPoint == point;
         }
-        public void PaintConstraint(Graphics g)
+        public void PaintConstraint(Graphics g, PointF point)
         {
-            g.DrawString("||", new Font("Arial", 10), Brushes.Magenta, new PointF((MePoint.X + MePoint.Next.X) / 2, (MePoint.Y + MePoint.Next.Y) / 2));
+            g.DrawString("||" + _id.ToString(), new Font("Arial", 6), Brushes.Magenta, new PointF((MePoint.X + MePoint.Next.X) / 2 + point.X, (MePoint.Y + MePoint.Next.Y) / 2 + point.Y)); ;
         }
 
     }
@@ -51,11 +54,14 @@
         public MyPoint MePoint;
         public MyPoint CorespondingPoint;
         private float _length;
-        public ConstraintLength(MyPoint firstPoint, MyPoint secondPoint, float length)
+        private int _id;
+
+        public ConstraintLength(MyPoint firstPoint, MyPoint secondPoint, float length,int id)
         {
             _length = length;
             MePoint = firstPoint;
             CorespondingPoint = secondPoint;
+            _id=id; 
         }
         public void Execute()
         {
@@ -91,9 +97,11 @@
         {
             return MePoint == point || CorespondingPoint == point;
         }
-        public void PaintConstraint(Graphics g)
+        public void PaintConstraint(Graphics g,PointF offset)
         {
-            g.DrawString("L", new Font("Arial", 10), Brushes.Black, new PointF((MePoint.X + CorespondingPoint.X) / 2, (MePoint.Y + CorespondingPoint.Y) / 2));
+            //g.DrawString("L", new Font("Arial", 10), Brushes.Black, new PointF((MePoint.X + CorespondingPoint.X) / 2+offset.X, (MePoint.Y + CorespondingPoint.Y) / 2+offset.Y));
+            g.DrawString("L" + _id.ToString(), new Font("Arial", 6), Brushes.Black, new PointF((MePoint.X + CorespondingPoint.X) / 2 + offset.X, (MePoint.Y + CorespondingPoint.Y) / 2 + offset.Y));
+
         }
 
     }

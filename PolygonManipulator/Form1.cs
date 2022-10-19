@@ -81,6 +81,7 @@ namespace PolygonManipulator
             {
                 g.Clear(_canvasColor);
             }
+            MyPoint.MaxConstraitnId = 0;
             Canvas.Refresh();
         }
         private void AddNewPolygonToCanvasButton_MouseClick(object sender, MouseEventArgs e)
@@ -346,6 +347,10 @@ namespace PolygonManipulator
         void AddConstraintParallel(int idP1, PointF p2)
         {
             MyPoint p11 = _currentPolygon.GetPointFromId(idP1);
+            if (p11 == null)
+            {
+                return;
+            }
             var res = GetLineFromLocation(p2);
             if (res.Item1 == null)
             {
@@ -358,23 +363,32 @@ namespace PolygonManipulator
 
         void InitiateAddingConstraintParallel(object sender, EventArgs e)
         {
+            GetLineFromLocation(_prevMouseLocation);
             _lastSelectedElement = LastSelectedElement.ADDING_CONSTRAINT_PARALLEL;
+            //RepaintCanvas();
         }
         void InitiateAddingConstraintLength(object sender, EventArgs e)
         {
-            var s = new LengthConstraintInputForm();
-            var resDialg = s.ShowDialog();
-            if (resDialg != DialogResult.OK)
-            {
-                return;
-            }
             var res = GetLineFromLocation(_prevMouseLocation);
             if (res.Item1 == null)
             {
                 return;
             }
             MyPoint point = res.Item1.GetPointFromId(res.Item2);
-            point.AddConstraintLength(point, point.Next, s.Length);
+
+            //var s = new LengthConstraintInputForm(Math.Sqrt(Math.Pow( point.X-point.Next.X,2)+Math.Pow(point.Y-point.Next.Y,2)));
+            //var resDialg = s.ShowDialog();
+            //if (resDialg != DialogResult.OK)
+            //{
+            //    return;
+            //}
+
+            string ret= Microsoft.VisualBasic.Interaction.InputBox("Enter new length for line","Set length"
+                ,Math.Round(Math.Sqrt(Math.Pow(point.X - point.Next.X, 2) + Math.Pow(point.Y - point.Next.Y, 2)),2).ToString());
+
+
+            //point.AddConstraintLength(point, point.Next, s.Length);
+            point.AddConstraintLength(point, point.Next, float.Parse(ret));
             RepaintCanvas();
         }
         bool HasLineAnyConstraint(PointF p)
@@ -478,10 +492,12 @@ namespace PolygonManipulator
         private void label1_Click(object sender, EventArgs e)
         {
             this.Canvas.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
+
         }
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             _myPaint = !_myPaint;
+
             RepaintCanvas();
         }
         private void Scene1Button_Click(object sender, EventArgs e)

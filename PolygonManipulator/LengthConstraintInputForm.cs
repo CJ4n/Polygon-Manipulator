@@ -3,9 +3,10 @@
     public partial class LengthConstraintInputForm : Form
     {
         public float Length { get; set; }
-        public LengthConstraintInputForm()
+        public LengthConstraintInputForm(double length)
         {
             InitializeComponent();
+            this.textBox1.Text = Math.Round(length,2).ToString();
             Length = -1;
         }
 
