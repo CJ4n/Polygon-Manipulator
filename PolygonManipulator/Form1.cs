@@ -19,6 +19,7 @@ namespace PolygonManipulator
         private int _currentPointId;
         private PointF _contextMenuOpenLocation;
         private bool _myPaint = false;
+        private bool _mouseDown = false;
         public Form1()
         {
             InitializeComponent();
@@ -37,7 +38,7 @@ namespace PolygonManipulator
             _currentPolygon = null;
             AddNewPolygonToCanvasButton_MouseClick(null, null);
             RepaintCanvas();
-            Scene2Button_Click(null, null);
+            Scene1Button_Click(null, null);
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -90,17 +91,15 @@ namespace PolygonManipulator
             _polygons.Add(new Polygon(_lineColor, _pointColor, Radius));
             _currentPolygon = _polygons.Last();
         }
-        private void Canvas_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (_prevMouseLocation == e.Location)
-            {
-                return;
-            }
-            HandleMoveRequest(sender, e, _prevMouseLocation);
-            _prevMouseLocation = e.Location;
-        }
         private bool MovePoint(MouseEventArgs e, PointF prevMouseLocation)
         {
+            if (_mouseDown == true)
+            {
+                _currentPolygon.TranslatePoint(prevMouseLocation.X - e.X, prevMouseLocation.Y - e.Y, _currentPointId);
+                RepaintCanvas();
+                return true;
+            }
+
             if (_currentPolygon != null)
             {
                 int res = _currentPolygon.IsClickNearSomePoint(prevMouseLocation, _currentPointId);
@@ -133,6 +132,13 @@ namespace PolygonManipulator
         }
         private bool MoveLine(MouseEventArgs e, PointF prevMouseLocation)
         {
+
+            if (_mouseDown == true)
+            {
+                _currentPolygon.TranslateLine(prevMouseLocation.X - e.X, prevMouseLocation.Y - e.Y, _currentPointId);
+                RepaintCanvas();
+                return true;
+            }
             if (_currentPolygon != null)
             {
                 int resLine = _currentPolygon.IsClickNearSomeLine(prevMouseLocation, _currentPointId);
@@ -165,12 +171,20 @@ namespace PolygonManipulator
         }
         private bool MovePolygon(MouseEventArgs e, PointF prevMouseLocation)
         {
+            if (_mouseDown == true)
+            {
+                _currentPolygon.TranslatePolygon(prevMouseLocation.X - e.X, prevMouseLocation.Y - e.Y);
+                RepaintCanvas();
+                return true;
+            }
+
             if (_currentPolygon.IsPointInBoundingBox(e.Location))
             {
                 _currentPolygon.TranslatePolygon(prevMouseLocation.X - e.X, prevMouseLocation.Y - e.Y);
                 RepaintCanvas();
                 return true;
             }
+
             foreach (Polygon polygon in _polygons)
             {
                 if (polygon.IsClickNearSomeLineOrPoint(e.Location) == true)
@@ -190,6 +204,15 @@ namespace PolygonManipulator
                 }
             }
             return false;
+        }
+        private void Canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_prevMouseLocation == e.Location)
+            {
+                return;
+            }
+            HandleMoveRequest(sender, e, _prevMouseLocation);
+            _prevMouseLocation = e.Location;
         }
         private void HandleMoveRequest(object sender, MouseEventArgs e, PointF prevMouseLocation)
         {
@@ -223,8 +246,10 @@ namespace PolygonManipulator
         private void Canvas_MouseDown(object sender, MouseEventArgs e)
         {
             _prevMouseLocation = e.Location;
+            _mouseDown = true;
             if (e.Button == MouseButtons.Right)
             {
+                CreateContextMenu(sender as PictureBox, e);
                 return;
             }
             if (e.Button == MouseButtons.Middle)
@@ -241,11 +266,41 @@ namespace PolygonManipulator
                 else
                 {
                     this.Canvas.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
+
+                    var resLine = GetLineFromLocation(e.Location);
+                    if (resLine.Item1 != null)
+                    {
+                        _lastSelectedElement = LastSelectedElement.LINE;
+                        _currentPointId = resLine.Item2;
+                        _currentPolygon = resLine.Item1;
+                        return;
+                    }
+
+                    var resPoint = GetPointFromLocation(e.Location);
+                    if (resPoint.Item1 != null)
+                    {
+                        _lastSelectedElement = LastSelectedElement.POINT;
+                        _currentPointId = resPoint.Item2;
+                        _currentPolygon = resPoint.Item1;
+                        return;
+                    }
+
+                    foreach (Polygon polygon in _polygons)
+                    {
+                        if (polygon.IsPointInBoundingBox(e.Location))
+                        {
+                            _currentPolygon = polygon;
+                            _currentPointId = -1;
+                            _lastSelectedElement = LastSelectedElement.POLYGON;
+                            return;
+                        }
+                    }
                 }
             }
         }
         private void Canvas_MouseUp(object sender, MouseEventArgs e)
         {
+            _mouseDown = false;
             if (e.Button == MouseButtons.Left)
             {
                 this.Canvas.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
@@ -360,12 +415,9 @@ namespace PolygonManipulator
             p11.AddConstraintParallel(p11, p22, _currentPolygon, res.Item1);
             RepaintCanvas();
         }
-
         void InitiateAddingConstraintParallel(object sender, EventArgs e)
         {
-            GetLineFromLocation(_prevMouseLocation);
             _lastSelectedElement = LastSelectedElement.ADDING_CONSTRAINT_PARALLEL;
-            //RepaintCanvas();
         }
         void InitiateAddingConstraintLength(object sender, EventArgs e)
         {
@@ -376,20 +428,28 @@ namespace PolygonManipulator
             }
             MyPoint point = res.Item1.GetPointFromId(res.Item2);
 
-            //var s = new LengthConstraintInputForm(Math.Sqrt(Math.Pow( point.X-point.Next.X,2)+Math.Pow(point.Y-point.Next.Y,2)));
-            //var resDialg = s.ShowDialog();
-            //if (resDialg != DialogResult.OK)
-            //{
-            //    return;
-            //}
+            string ret = Microsoft.VisualBasic.Interaction.InputBox("Enter new length for line", "Set length"
+                , Math.Round(Math.Sqrt(Math.Pow(point.X - point.Next.X, 2) + Math.Pow(point.Y - point.Next.Y, 2)), 2).ToString());
+            if (ret == "") { return; }
 
-            string ret= Microsoft.VisualBasic.Interaction.InputBox("Enter new length for line","Set length"
-                ,Math.Round(Math.Sqrt(Math.Pow(point.X - point.Next.X, 2) + Math.Pow(point.Y - point.Next.Y, 2)),2).ToString());
+            try
+            {
+                var newlength = float.Parse(ret);
+                if (newlength <= 0)
+                {
+                    MessageBox.Show("Negative distance!");
+                    return;
+                }
+
+                point.AddConstraintLength(point, point.Next, newlength);
+                RepaintCanvas();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
 
 
-            //point.AddConstraintLength(point, point.Next, s.Length);
-            point.AddConstraintLength(point, point.Next, float.Parse(ret));
-            RepaintCanvas();
         }
         bool HasLineAnyConstraint(PointF p)
         {
@@ -398,7 +458,7 @@ namespace PolygonManipulator
             {
                 return false;
             }
-            return res.Item1.GetPointFromId(res.Item2).Constraints.Count() > 0;
+            return res.Item1.GetPointFromId(res.Item2).HowManyMeaningfulConstraints() > 0;
         }
         void DeleteConstraints(object sender, EventArgs e)
         {
@@ -423,18 +483,23 @@ namespace PolygonManipulator
                 c.Items.Add(toolStripMenuItemDeletePoint);
                 _lastSelectedElement = LastSelectedElement.POINT;
                 _currentPointId = resPoint.Item2;
+                _currentPolygon = resPoint.Item1;
             }
             else
             {
                 var resLine = GetLineFromLocation(e.Location);
+
+                RepaintCanvas();
                 if (resLine.Item1 != null && resPoint.Item1 == null)
                 {
+                    _currentPointId = resLine.Item2;
+                    _currentPolygon = resLine.Item1;
+                    _lastSelectedElement = LastSelectedElement.LINE;
+
                     ToolStripMenuItem toolStripMenuItemDeleteLine = new ToolStripMenuItem("Delete line");
                     ToolStripMenuItem toolStripMenuItemAddPointMiddle = new ToolStripMenuItem("Add point in the middle");
                     ToolStripMenuItem toolStripMenuConstraintParalell = new ToolStripMenuItem("Add constraint parallel");
                     ToolStripMenuItem toolStripMenuConstraintLength = new ToolStripMenuItem("Add constraint on length");
-
-
 
                     toolStripMenuItemDeleteLine.Click += new EventHandler(DeleteLine);
                     toolStripMenuItemAddPointMiddle.Click += new EventHandler(AddPointOnTheLine);
@@ -472,27 +537,10 @@ namespace PolygonManipulator
                 CreateContextMenu(sender as PictureBox, e);
             }
         }
-        private void GenerateScene1()
-        {
-            _currentPolygon.AddPointAtEnd(66, 79);
-            _currentPolygon.AddPointAtEnd(75, 140);
-            _currentPolygon.AddPointAtEnd(435, 165);
-            _currentPolygon.AddPointAtEnd(506, 84);
-            _currentPolygon.AddPointAtEnd(359, 32);
-            _currentPolygon.AddPointAtEnd(254, 26);
-            _currentPolygon.AddPointAtEnd(246, 114);
-            _currentPolygon.AddPointAtEnd(281, 206);
-            _currentPolygon.AddPointAtEnd(188, 202);
-            _currentPolygon.AddPointAtEnd(211, 77);
-            _currentPolygon.AddPointAtEnd(116, 28);
-            _currentPolygon.AddPointAtEnd(129, 84);
-            _currentPolygon.AddPointAtEnd(66, 79);
-            RepaintCanvas();
-        }
         private void label1_Click(object sender, EventArgs e)
         {
             this.Canvas.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
-
+            _mouseDown = false;
         }
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -516,6 +564,32 @@ namespace PolygonManipulator
             _currentPolygon.AddPointAtEnd(116, 28);
             _currentPolygon.AddPointAtEnd(129, 84);
             _currentPolygon.AddPointAtEnd(66, 79);
+            _currentPolygon.Points[9].AddConstraintParallel(_currentPolygon.Points[9], _currentPolygon.Points[5], _currentPolygon, _currentPolygon);
+            _currentPolygon.Points[0].AddConstraintParallel(_currentPolygon.Points[0], _currentPolygon.Points[7], _currentPolygon, _currentPolygon);
+            _currentPolygon.Points[8].AddConstraintLength(_currentPolygon.Points[8], _currentPolygon.Points[8].Next, 100);
+
+
+            AddNewPolygonToCanvasButton_MouseClick(null, null);
+            _currentPolygon.AddPointAtEnd(200 + 66, 200 + 79);
+            _currentPolygon.AddPointAtEnd(200 + 75, 200 + 140);
+            _currentPolygon.AddPointAtEnd(200 + 435, 200 + 165);
+            _currentPolygon.AddPointAtEnd(200 + 506, 200 + 84);
+            _currentPolygon.AddPointAtEnd(200 + 359, 200 + 32);
+            _currentPolygon.AddPointAtEnd(200 + 254, 200 + 26);
+            _currentPolygon.AddPointAtEnd(200 + 246, 200 + 114);
+            _currentPolygon.AddPointAtEnd(200 + 281, 200 + 206);
+            _currentPolygon.AddPointAtEnd(200 + 188, 200 + 202);
+            _currentPolygon.AddPointAtEnd(200 + 211, 200 + 77);
+            _currentPolygon.AddPointAtEnd(200 + 116, 200 + 28);
+            _currentPolygon.AddPointAtEnd(200 + 129, 200 + 84);
+            _currentPolygon.AddPointAtEnd(200 + 66, 200 + 79);
+
+            _currentPolygon.Points[2].AddConstraintParallel(_currentPolygon.Points[2], _currentPolygon.Points[0], _currentPolygon, _currentPolygon);
+            _currentPolygon.Points[2].AddConstraintParallel(_currentPolygon.Points[2], _polygons[0].Points[9], _currentPolygon, _currentPolygon);
+            _currentPolygon.Points[7].AddConstraintLength(_currentPolygon.Points[7], _currentPolygon.Points[7].Next, 100);
+            _currentPolygon.Points[8].AddConstraintLength(_currentPolygon.Points[8], _currentPolygon.Points[8].Next, 100);
+
+
             RepaintCanvas();
         }
         private void Scene2Button_Click(object sender, EventArgs e)
@@ -649,5 +723,6 @@ namespace PolygonManipulator
         {
             this.Canvas.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
         }
+
     }
 }

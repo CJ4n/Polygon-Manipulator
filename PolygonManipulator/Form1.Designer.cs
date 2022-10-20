@@ -38,7 +38,14 @@
             this.Scene1Button = new System.Windows.Forms.Button();
             this.Scene2Button = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // Canvas
@@ -100,22 +107,46 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // splitContainer1
+            // 
+            resources.ApplyResources(this.splitContainer1, "splitContainer1");
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.Canvas);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.AddNewPolygonToCanvasButton);
+            this.groupBox1.Controls.Add(this.ClearCanvasButton);
+            this.groupBox1.Controls.Add(this.Scene2Button);
+            this.groupBox1.Controls.Add(this.checkBox1);
+            this.groupBox1.Controls.Add(this.Scene1Button);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.Scene2Button);
-            this.Controls.Add(this.Scene1Button);
-            this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.Canvas);
-            this.Controls.Add(this.AddNewPolygonToCanvasButton);
-            this.Controls.Add(this.ClearCanvasButton);
+            this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
             this.TransparencyKey = System.Drawing.Color.Red;
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -129,5 +160,7 @@
         private Button Scene1Button;
         private Button Scene2Button;
         private Button button1;
+        private SplitContainer splitContainer1;
+        private GroupBox groupBox1;
     }
 }

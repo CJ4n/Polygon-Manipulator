@@ -17,7 +17,6 @@
             Next = next;
             Constraints = new List<Constraint>();
         }
-
         public void TranslatePoint(float dx, float dy)
         {
             X -= dx;
@@ -48,22 +47,29 @@
             ExecuteConstrains();
             Next.ExecuteConstrains();
         }
+        private bool _constraintsDeleting = false;
         public void AddConstraintParallel(MyPoint firstPoint, MyPoint secondPoint, Polygon firstPolygon, Polygon secondPolygon)
         {
-            firstPoint.Constraints.Add(new ConstraintParallel(firstPoint, secondPoint, firstPolygon, secondPolygon, MaxConstraitnId));
-            firstPoint.Next.Constraints.Add(new ConstraintParallel(firstPoint, secondPoint, firstPolygon, secondPolygon, MaxConstraitnId));
-            secondPoint.Constraints.Add(new ConstraintParallel(secondPoint, firstPoint, secondPolygon, firstPolygon, MaxConstraitnId));
-            secondPoint.Next.Constraints.Add(new ConstraintParallel(secondPoint, firstPoint, secondPolygon, firstPolygon, MaxConstraitnId));
+            if (firstPoint.Next == secondPoint || firstPoint == secondPoint.Next)
+            {
+                MessageBox.Show("Can't make adjacent lines parallel");
+                return;
+            }
+            firstPoint.Constraints.Add(new ConstraintParallel(firstPoint, secondPoint, firstPolygon, secondPolygon, MaxConstraitnId, true));
+            firstPoint.Next.Constraints.Add(new ConstraintParallel(firstPoint, secondPoint, firstPolygon, secondPolygon, MaxConstraitnId, false));
+            secondPoint.Constraints.Add(new ConstraintParallel(secondPoint, firstPoint, secondPolygon, firstPolygon, MaxConstraitnId, true));
+            secondPoint.Next.Constraints.Add(new ConstraintParallel(secondPoint, firstPoint, secondPolygon, firstPolygon, MaxConstraitnId, false));
             MaxConstraitnId++;
             RotatePoint(firstPoint, secondPoint);
         }
         public void AddConstraintLength(MyPoint firstPoint, MyPoint secondPoint, float length)
         {
-            firstPoint.Constraints.Add(new ConstraintLength(firstPoint, secondPoint, length,MaxConstraitnId));
-            secondPoint.Constraints.Add(new ConstraintLength(secondPoint, firstPoint, length,MaxConstraitnId));
-            MaxConstraitnId++; 
+            firstPoint.Constraints.Add(new ConstraintLength(firstPoint, secondPoint, firstPoint, length, MaxConstraitnId, true));
+            secondPoint.Constraints.Add(new ConstraintLength(secondPoint, firstPoint, firstPoint, length, MaxConstraitnId, false));
+            MaxConstraitnId++;
             ExecuteConstrains();
         }
+        // Rotates point around ((p1.x+p2.x)/2,(p1.y+p2.y)/2)
         public void RotatePoint(MyPoint p1, MyPoint p2)
         {
             if (HasConstraintBeenExecuted)
@@ -195,21 +201,32 @@
         }
         public void DeleteAssociatedConstraints()
         {
-            int len = Constraints.Count();
-            for (int i = 0; i < len; ++i)
+
+            Dictionary<MyPoint, MyPoint> points = new Dictionary<MyPoint, MyPoint>();
+            foreach (var c in Constraints)
             {
-                Constraints[i].DeleteConstraint();
-                len = Constraints.Count();
+                points.TryAdd(c.GetPoints().Item1, c.GetPoints().Item1);
+                points.TryAdd(c.GetPoints().Item2, c.GetPoints().Item2);
+
             }
-            Next.DeleteConstraintsAssociatedWithPoint(this);
-            Prev.DeleteConstraintsAssociatedWithPoint(this);
+            foreach (var p in points)
+            {
+                p.Value.DeleteConstraintsAssociatedWithPoint(this);
+                p.Value.Next.DeleteConstraintsAssociatedWithPoint(this);
+                p.Value.Prev.DeleteConstraintsAssociatedWithPoint(this);
+            }
         }
         public void DeleteConstraintsAssociatedWithPoint(MyPoint point)
         {
+            if (_constraintsDeleting)
+            {
+                return;
+            }
             List<Constraint> constraintsToDelete = new List<Constraint>();
             foreach (var c in Constraints)
             {
-                if (c.AssertIfDelete(point))
+                var p1p2 = c.GetPoints();
+                if (c.AssertIfDelete(point) /*|| p1p2.Item1 == this*/)
                 {
                     constraintsToDelete.Add(c);
                 }
@@ -224,10 +241,27 @@
             int iter = 0;
             foreach (var c in Constraints)
             {
-                var offset = new PointF(20 * iter,iter);
-                c.PaintConstraint(g, offset);
+
+                var offset = new PointF(20 * iter, iter);
+
+                if (c.PaintConstraint(g, offset) == false)
+                {
+                    continue;
+                }
                 iter++;
             }
+        }
+        public int HowManyMeaningfulConstraints()
+        {
+            int sum = 0;
+            foreach (var c in Constraints)
+            {
+                if (c.AssertIfDelete(this))
+                {
+                    sum++;
+                }
+            }
+            return sum;
         }
     }
 
@@ -235,8 +269,8 @@
     {
         public Dictionary<int, MyPoint> Points { get; set; }
         public bool IsPolygonCycle = false;
-        const int SearchRadiusPoint = 8;
-        const int SearchRadiusLine = 8;
+        const int SearchRadiusPoint = 12;
+        const int SearchRadiusLine = 9;
         private int _pointRadius;
         private Brush _pointColor;
         private Pen _lineColor;

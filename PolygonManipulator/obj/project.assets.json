@@ -8,23 +8,23 @@
     "net6.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\yanci\\.nuget\\packages\\": {},
+    "C:\\Users\\YanPC\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\yanci\\Desktop\\Polygon-Manipulator\\PolygonManipulator\\PolygonManipulator.csproj",
+      "projectUniqueName": "D:\\JAN_CICHOMSKI\\STUDIA\\STUDIA_SEMESTR_5_2022_ZIMA\\Grafika Komputerowa 1\\lab1\\Polygon-Manipulator\\PolygonManipulator\\PolygonManipulator.csproj",
       "projectName": "PolygonManipulator",
-      "projectPath": "C:\\Users\\yanci\\Desktop\\Polygon-Manipulator\\PolygonManipulator\\PolygonManipulator.csproj",
-      "packagesPath": "C:\\Users\\yanci\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\yanci\\Desktop\\Polygon-Manipulator\\PolygonManipulator\\obj\\",
+      "projectPath": "D:\\JAN_CICHOMSKI\\STUDIA\\STUDIA_SEMESTR_5_2022_ZIMA\\Grafika Komputerowa 1\\lab1\\Polygon-Manipulator\\PolygonManipulator\\PolygonManipulator.csproj",
+      "packagesPath": "C:\\Users\\YanPC\\.nuget\\packages\\",
+      "outputPath": "D:\\JAN_CICHOMSKI\\STUDIA\\STUDIA_SEMESTR_5_2022_ZIMA\\Grafika Komputerowa 1\\lab1\\Polygon-Manipulator\\PolygonManipulator\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\yanci\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\YanPC\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
