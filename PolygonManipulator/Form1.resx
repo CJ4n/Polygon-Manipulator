@@ -125,7 +125,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;AddNewPolygonToCanvasButton.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>0</value>
   </data>
   <data name="ClearCanvasButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 26</value>
@@ -149,7 +149,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;ClearCanvasButton.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="checkBox1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -179,7 +179,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;checkBox1.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>2</value>
   </data>
   <data name="Scene1Button.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 164</value>
@@ -203,58 +203,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;Scene1Button.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="Scene2Button.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 209</value>
-  </data>
-  <data name="Scene2Button.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 28</value>
-  </data>
-  <data name="Scene2Button.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="Scene2Button.Text" xml:space="preserve">
-    <value>Scene 2</value>
-  </data>
-  <data name="&gt;&gt;Scene2Button.Name" xml:space="preserve">
-    <value>Scene2Button</value>
-  </data>
-  <data name="&gt;&gt;Scene2Button.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Scene2Button.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;Scene2Button.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 709</value>
-  </data>
-  <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 80</value>
-  </data>
-  <data name="button1.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="button1.Text" xml:space="preserve">
-    <value>button1</value>
-  </data>
-  <data name="button1.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;button1.Name" xml:space="preserve">
-    <value>button1</value>
-  </data>
-  <data name="&gt;&gt;button1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button1.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="splitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>

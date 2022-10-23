@@ -42,12 +42,9 @@ namespace PolygonManipulator
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
         private void DrawAndAddPoint(object sender, MouseEventArgs e)
         {
-
-
             if (_currentPolygon.Points.Count() == 0) // adding first point to canvas
             {
                 _currentPolygon.AddPointAtEnd(e.X, e.Y);
@@ -328,11 +325,11 @@ namespace PolygonManipulator
                 {
                     if (poly == _currentPolygon)
                     {
-                        poly.RepaintPolygon(g, _selectedPolygonLineColor, _selectedPolygonPointColor, _selectedLineColor, _selectedPointColor, _currentPointId, _lastSelectedElement);
+                        poly.PaintPolygon(g, _selectedPolygonLineColor, _selectedPolygonPointColor, _selectedLineColor, _selectedPointColor, _currentPointId, _lastSelectedElement);
                     }
                     else
                     {
-                        poly.RepaintPolygon(g, _lineColor, _pointColor, _lineColor, _pointColor);
+                        poly.PaintPolygon(g, _lineColor, _pointColor, _lineColor, _pointColor);
                     }
                 }
             }
@@ -448,8 +445,6 @@ namespace PolygonManipulator
             {
                 MessageBox.Show(exception.Message);
             }
-
-
         }
         bool HasLineAnyConstraint(PointF p)
         {
@@ -723,6 +718,5 @@ namespace PolygonManipulator
         {
             this.Canvas.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
         }
-
     }
 }

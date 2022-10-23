@@ -1,24 +1,24 @@
 ﻿namespace PolygonManipulator
 {
-    public interface Constraint
+    public abstract class Constraint
     {
+        public MyPoint MePoint;
+        public MyPoint CorespondingPoint;
+        public bool _paintThisConstraints;
+        protected int _id;
 
-        public void Execute();
-        public void DeleteConstraint();
-        public bool AssertIfDelete(MyPoint point);
-        public bool PaintConstraint(Graphics g, PointF point);
-        public (MyPoint, MyPoint) GetPoints();
+        abstract public void Execute();
+        abstract public void DeleteConstraint();
+        abstract public bool AssertIfDelete(MyPoint point);
+        abstract public bool PaintConstraint(Graphics g, PointF point);
     }
 
     public class ConstraintParallel : Constraint
     {
-        public MyPoint MePoint;
-        public MyPoint CorespondingPoint;
         public Polygon MePolygon;
         public Polygon CorespondingPolygon;
         public static int MaxId;
-        private int _id;
-        public bool _paintThisConstraints;
+
         public ConstraintParallel(MyPoint firstPoint, MyPoint secondPoint, Polygon firstPolygon, Polygon secondPolygon, int id, bool paintThisConstraint)
         {
             MePoint = firstPoint;
@@ -27,13 +27,12 @@
             CorespondingPolygon = secondPolygon;
             _id = id;
             _paintThisConstraints = paintThisConstraint;
-
         }
-        public void Execute()
+        override public void Execute()
         {
             CorespondingPoint.RotatePoint(MePoint, CorespondingPoint);
         }
-        public void DeleteConstraint()
+        override public void DeleteConstraint()
         {
             foreach (var p in CorespondingPolygon.Points)
             {
@@ -45,11 +44,11 @@
                 p.Value.DeleteConstraintsAssociatedWithPoint(MePoint);
             }
         }
-        public bool AssertIfDelete(MyPoint point)
+        override public bool AssertIfDelete(MyPoint point)
         {
             return MePoint == point || CorespondingPoint == point;
         }
-        public bool PaintConstraint(Graphics g, PointF point)
+        override public bool PaintConstraint(Graphics g, PointF point)
         {
             if (_paintThisConstraints)
             {
@@ -57,21 +56,12 @@
             }
             return _paintThisConstraints;
         }
-        public (MyPoint, MyPoint) GetPoints()
-        {
-            return (MePoint, CorespondingPoint);
-        }
-
-
     }
     public class ConstraintLength : Constraint
     {
-        public MyPoint MePoint;
-        public MyPoint CorespondingPoint;
         private MyPoint _anchorPoint;
         private float _length;
-        private int _id;
-        public bool _paintThisConstraints;
+
         public ConstraintLength(MyPoint firstPoint, MyPoint secondPoint, MyPoint anchor, float length, int id, bool paintThisConstraint)
         {
             _length = length;
@@ -81,7 +71,7 @@
             _id = id;
             _paintThisConstraints = paintThisConstraint;
         }
-        public void Execute()
+        override public void Execute()
         {
             if (CorespondingPoint.HasConstraintBeenExecuted)
             {
@@ -100,7 +90,7 @@
             CorespondingPoint.ExecuteConstrains();
 
         }
-        public void DeleteConstraint()
+        override public void DeleteConstraint()
         {
             if (_anchorPoint != MePoint)
             {
@@ -109,22 +99,18 @@
             MePoint.DeleteConstraintsAssociatedWithPoint(MePoint);
             CorespondingPoint.DeleteConstraintsAssociatedWithPoint(MePoint);
         }
-        public bool AssertIfDelete(MyPoint point)
+        override public bool AssertIfDelete(MyPoint point)
         {
             return _anchorPoint == point;
         }
-        public bool PaintConstraint(Graphics g, PointF offset)
+        override public bool PaintConstraint(Graphics g, PointF offset)
         {
             if (_paintThisConstraints)
             {
-                g.DrawString("L" + _id.ToString(), new Font("Arial", 6), Brushes.Black, new PointF((MePoint.X + CorespondingPoint.X) / 2 + offset.X, (MePoint.Y + CorespondingPoint.Y) / 2 + offset.Y));
+                g.DrawString("L" + _id.ToString(), new Font("Arial", 8), Brushes.DarkRed, new PointF((MePoint.X + CorespondingPoint.X) / 2 + offset.X, (MePoint.Y + CorespondingPoint.Y) / 2 + offset.Y));
             }
             return _paintThisConstraints;
 
-        }
-        public (MyPoint, MyPoint) GetPoints()
-        {
-            return (MePoint, CorespondingPoint);
         }
     }
 }

@@ -36,8 +36,6 @@
             this.ClearCanvasButton = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.Scene1Button = new System.Windows.Forms.Button();
-            this.Scene2Button = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
@@ -93,20 +91,6 @@
             this.Scene1Button.UseVisualStyleBackColor = true;
             this.Scene1Button.Click += new System.EventHandler(this.Scene1Button_Click);
             // 
-            // Scene2Button
-            // 
-            resources.ApplyResources(this.Scene2Button, "Scene2Button");
-            this.Scene2Button.Name = "Scene2Button";
-            this.Scene2Button.UseVisualStyleBackColor = true;
-            this.Scene2Button.Click += new System.EventHandler(this.Scene2Button_Click);
-            // 
-            // button1
-            // 
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // splitContainer1
             // 
             resources.ApplyResources(this.splitContainer1, "splitContainer1");
@@ -122,10 +106,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.AddNewPolygonToCanvasButton);
             this.groupBox1.Controls.Add(this.ClearCanvasButton);
-            this.groupBox1.Controls.Add(this.Scene2Button);
             this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Controls.Add(this.Scene1Button);
             resources.ApplyResources(this.groupBox1, "groupBox1");
@@ -158,8 +140,6 @@
         private ContextMenuStrip canvasContextMenuStrip;
         private CheckBox checkBox1;
         private Button Scene1Button;
-        private Button Scene2Button;
-        private Button button1;
         private SplitContainer splitContainer1;
         private GroupBox groupBox1;
     }
