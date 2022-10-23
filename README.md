@@ -1,4 +1,5 @@
-# Polygon-Manipulator
+## Polygon-Manipulator
+# Manual
 - To add a new polygon click: 'Add new polygon' button
 - To clear canvas click: 'Clear Canvas' button
 - To use Bresenham algorithm to draw lines instead of library algorithm tick 'Use Bresenham algorithm'
@@ -20,9 +21,8 @@
 	2. Dialog box will appear asking you to enter a new length for the selected line
 - To delete all constraints associated with a line, right click on the line and select 'Delete constraints', it will
 remove all constraints associated with the line
-- Delete point/line or adding a point in the middle of the line will remove all constraints from adjacent points and lines
-
-
+- Delete point/line or adding a point in the middle of the line will remove all constraints from adjacent points and lines  
+# Some notes on implementation
 - Polygon is represented as a circular linked list, and line is represented only by the 'first' vertex, since every vertex 
   has a reference to next (and previous) point
 - No two adjacent lines can be parallel to each other
