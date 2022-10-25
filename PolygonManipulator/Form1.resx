@@ -125,7 +125,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;AddNewPolygonToCanvasButton.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>5</value>
   </data>
   <data name="ClearCanvasButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 26</value>
@@ -149,7 +149,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;ClearCanvasButton.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>6</value>
   </data>
   <data name="checkBox1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -179,7 +179,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;checkBox1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>7</value>
   </data>
   <data name="Scene1Button.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 164</value>
@@ -203,7 +203,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;Scene1Button.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>8</value>
   </data>
   <data name="splitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -222,6 +222,138 @@
   </data>
   <data name="&gt;&gt;splitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="lineWidthtextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 360</value>
+  </data>
+  <data name="lineWidthtextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>125, 27</value>
+  </data>
+  <data name="lineWidthtextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="lineWidthtextBox.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;lineWidthtextBox.Name" xml:space="preserve">
+    <value>lineWidthtextBox</value>
+  </data>
+  <data name="&gt;&gt;lineWidthtextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lineWidthtextBox.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;lineWidthtextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="wuRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="wuRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 315</value>
+  </data>
+  <data name="wuRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 24</value>
+  </data>
+  <data name="wuRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="wuRadioButton.Text" xml:space="preserve">
+    <value>Wu</value>
+  </data>
+  <data name="&gt;&gt;wuRadioButton.Name" xml:space="preserve">
+    <value>wuRadioButton</value>
+  </data>
+  <data name="&gt;&gt;wuRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;wuRadioButton.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;wuRadioButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="bresenhamRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="bresenhamRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 285</value>
+  </data>
+  <data name="bresenhamRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 24</value>
+  </data>
+  <data name="bresenhamRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="bresenhamRadioButton.Text" xml:space="preserve">
+    <value>Bresenham</value>
+  </data>
+  <data name="&gt;&gt;bresenhamRadioButton.Name" xml:space="preserve">
+    <value>bresenhamRadioButton</value>
+  </data>
+  <data name="&gt;&gt;bresenhamRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;bresenhamRadioButton.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;bresenhamRadioButton.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="basicRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="basicRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 255</value>
+  </data>
+  <data name="basicRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 24</value>
+  </data>
+  <data name="basicRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="basicRadioButton.Text" xml:space="preserve">
+    <value>Basic</value>
+  </data>
+  <data name="&gt;&gt;basicRadioButton.Name" xml:space="preserve">
+    <value>basicRadioButton</value>
+  </data>
+  <data name="&gt;&gt;basicRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;basicRadioButton.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;basicRadioButton.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="fancyRadioButton.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="fancyRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 225</value>
+  </data>
+  <data name="fancyRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 24</value>
+  </data>
+  <data name="fancyRadioButton.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="fancyRadioButton.Text" xml:space="preserve">
+    <value>Fancy</value>
+  </data>
+  <data name="&gt;&gt;fancyRadioButton.Name" xml:space="preserve">
+    <value>fancyRadioButton</value>
+  </data>
+  <data name="&gt;&gt;fancyRadioButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;fancyRadioButton.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;fancyRadioButton.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="groupBox1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -282,6 +414,9 @@
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>25</value>
   </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>1428, 789</value>

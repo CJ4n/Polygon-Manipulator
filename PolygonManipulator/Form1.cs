@@ -20,13 +20,15 @@ namespace PolygonManipulator
         private PointF _contextMenuOpenLocation;
         private bool _myPaint = false;
         private bool _mouseDown = false;
+        private enum PaintType { FANCY, BASIC, BREHENSAM, WU }
+        private PaintType _paintType = PaintType.FANCY;
         public Form1()
         {
             InitializeComponent();
             _drawArea = new Bitmap(Canvas.Size.Width * 10, Canvas.Size.Height * 10);
             Canvas.Image = _drawArea;
             _polygons = new List<Polygon>();
-            _canvasColor = Color.LightBlue;
+            _canvasColor = Color.White;
             _lineColor = new Pen(Brushes.Black, 1);
             _selectedLineColor = new Pen(Brushes.Yellow, 3);
             _selectedPolygonLineColor = new Pen(Brushes.DarkCyan, 2);
@@ -39,6 +41,7 @@ namespace PolygonManipulator
             AddNewPolygonToCanvasButton_MouseClick(null, null);
             RepaintCanvas();
             Scene1Button_Click(null, null);
+            fancyRadioButton.Checked = true;
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -305,34 +308,92 @@ namespace PolygonManipulator
         }
         private void RepaintCanvas()
         {
-            if (_myPaint)
+            if (this.basicRadioButton.Checked)
             {
                 using (Graphics g = Graphics.FromImage(_drawArea))
                 {
                     g.Clear(_canvasColor);
                     foreach (var poly in _polygons)
                     {
-                        poly.OwnPaint(_drawArea, g);
+                        int value=1;
+                        try
+                        {
+                           value= int.Parse(this.lineWidthtextBox.Text);
+                        }
+                        catch(Exception excep)
+                        {
+                            value = 1;
+                        }
+                        poly.BasicPaint( g,value);
                     }
                 }
                 Canvas.Refresh();
-                return;
             }
-            using (Graphics g = Graphics.FromImage(_drawArea))
+
+            if (this.bresenhamRadioButton.Checked)
             {
-                g.Clear(_canvasColor);
-                foreach (var poly in _polygons)
+                using (Graphics g = Graphics.FromImage(_drawArea))
                 {
-                    if (poly == _currentPolygon)
+                    g.Clear(_canvasColor);
+                    foreach (var poly in _polygons)
                     {
-                        poly.PaintPolygon(g, _selectedPolygonLineColor, _selectedPolygonPointColor, _selectedLineColor, _selectedPointColor, _currentPointId, _lastSelectedElement);
-                    }
-                    else
-                    {
-                        poly.PaintPolygon(g, _lineColor, _pointColor, _lineColor, _pointColor);
+                        int value = 1;
+                        try
+                        {
+                            value = int.Parse(this.lineWidthtextBox.Text);
+                        }
+                        catch (Exception excep)
+                        {
+                            value = 1;
+                        }
+                        poly.BresenhamPaint(_drawArea, g,value);
                     }
                 }
+                Canvas.Refresh();
             }
+            if (this.fancyRadioButton.Checked)
+            {
+                using (Graphics g = Graphics.FromImage(_drawArea))
+                {
+                    g.Clear(_canvasColor);
+                    foreach (var poly in _polygons)
+                    {
+                        if (poly == _currentPolygon)
+                        {
+                            poly.PaintPolygon(g, _selectedPolygonLineColor, _selectedPolygonPointColor, _selectedLineColor, _selectedPointColor, _currentPointId, _lastSelectedElement);
+                        }
+                        else
+                        {
+                            poly.PaintPolygon(g, _lineColor, _pointColor, _lineColor, _pointColor);
+                        }
+                    }
+                }
+                Canvas.Refresh();
+
+            }
+            if (this.wuRadioButton.Checked)
+            {
+
+                using (Graphics g = Graphics.FromImage(_drawArea))
+                {
+                    g.Clear(_canvasColor);
+                    foreach (var poly in _polygons)
+                    {
+                        int value = 1;
+                        try
+                        {
+                            value = int.Parse(this.lineWidthtextBox.Text);
+                        }
+                        catch (Exception excep)
+                        {
+                            value = 1;
+                        }
+                        poly.WuPaint(_drawArea, g, value);
+                    }
+                }
+                Canvas.Refresh();
+            }
+
             Canvas.Refresh();
         }
         (Polygon?, int) GetPointFromLocation(PointF p)
@@ -717,6 +778,34 @@ namespace PolygonManipulator
         private void button1_Click(object sender, EventArgs e)
         {
             this.Canvas.MouseMove -= new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
+        }
+
+        private void fancyRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            RepaintCanvas();
+        }
+
+        private void basicRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            RepaintCanvas();
+
+        }
+
+        private void bresenhamRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            RepaintCanvas();
+
+        }
+
+        private void wuRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            RepaintCanvas();
+
+        }
+
+        private void lineWidthtextBox_TextChanged(object sender, EventArgs e)
+        {
+            RepaintCanvas();
         }
     }
 }

@@ -38,6 +38,11 @@
             this.Scene1Button = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lineWidthtextBox = new System.Windows.Forms.TextBox();
+            this.wuRadioButton = new System.Windows.Forms.RadioButton();
+            this.bresenhamRadioButton = new System.Windows.Forms.RadioButton();
+            this.basicRadioButton = new System.Windows.Forms.RadioButton();
+            this.fancyRadioButton = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -106,6 +111,11 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lineWidthtextBox);
+            this.groupBox1.Controls.Add(this.wuRadioButton);
+            this.groupBox1.Controls.Add(this.bresenhamRadioButton);
+            this.groupBox1.Controls.Add(this.basicRadioButton);
+            this.groupBox1.Controls.Add(this.fancyRadioButton);
             this.groupBox1.Controls.Add(this.AddNewPolygonToCanvasButton);
             this.groupBox1.Controls.Add(this.ClearCanvasButton);
             this.groupBox1.Controls.Add(this.checkBox1);
@@ -113,6 +123,44 @@
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
+            // 
+            // lineWidthtextBox
+            // 
+            resources.ApplyResources(this.lineWidthtextBox, "lineWidthtextBox");
+            this.lineWidthtextBox.Name = "lineWidthtextBox";
+            this.lineWidthtextBox.TextChanged += new System.EventHandler(this.lineWidthtextBox_TextChanged);
+            // 
+            // wuRadioButton
+            // 
+            resources.ApplyResources(this.wuRadioButton, "wuRadioButton");
+            this.wuRadioButton.Name = "wuRadioButton";
+            this.wuRadioButton.TabStop = true;
+            this.wuRadioButton.UseVisualStyleBackColor = true;
+            this.wuRadioButton.CheckedChanged += new System.EventHandler(this.wuRadioButton_CheckedChanged);
+            // 
+            // bresenhamRadioButton
+            // 
+            resources.ApplyResources(this.bresenhamRadioButton, "bresenhamRadioButton");
+            this.bresenhamRadioButton.Name = "bresenhamRadioButton";
+            this.bresenhamRadioButton.TabStop = true;
+            this.bresenhamRadioButton.UseVisualStyleBackColor = true;
+            this.bresenhamRadioButton.CheckedChanged += new System.EventHandler(this.bresenhamRadioButton_CheckedChanged);
+            // 
+            // basicRadioButton
+            // 
+            resources.ApplyResources(this.basicRadioButton, "basicRadioButton");
+            this.basicRadioButton.Name = "basicRadioButton";
+            this.basicRadioButton.TabStop = true;
+            this.basicRadioButton.UseVisualStyleBackColor = true;
+            this.basicRadioButton.CheckedChanged += new System.EventHandler(this.basicRadioButton_CheckedChanged);
+            // 
+            // fancyRadioButton
+            // 
+            resources.ApplyResources(this.fancyRadioButton, "fancyRadioButton");
+            this.fancyRadioButton.Name = "fancyRadioButton";
+            this.fancyRadioButton.TabStop = true;
+            this.fancyRadioButton.UseVisualStyleBackColor = true;
+            this.fancyRadioButton.CheckedChanged += new System.EventHandler(this.fancyRadioButton_CheckedChanged);
             // 
             // Form1
             // 
@@ -142,5 +190,10 @@
         private Button Scene1Button;
         private SplitContainer splitContainer1;
         private GroupBox groupBox1;
+        private RadioButton wuRadioButton;
+        private RadioButton bresenhamRadioButton;
+        private RadioButton basicRadioButton;
+        private RadioButton fancyRadioButton;
+        private TextBox lineWidthtextBox;
     }
 }

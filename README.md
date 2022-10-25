@@ -22,6 +22,10 @@
 - To delete all constraints associated with a line, right click on the line and select 'Delete constraints', it will
 remove all constraints associated with the line
 - Delete point/line or adding a point in the middle of the line will remove all constraints from adjacent points and lines  
+- There are four algorithms for drawing lines: fancy (more colors), basic (just line), bresenham (own implementaion of bresenham algorithm)
+  and wu implementation of antyaliasing
+- int textBox you can enter desired line width, default is 1 pixel
+
 # Some notes on implementation
 - Polygon is represented as a circular linked list, and line is represented only by the 'first' vertex, since every vertex 
   has a reference to next (and previous) point

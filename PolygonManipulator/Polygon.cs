@@ -14,8 +14,123 @@
         private MyPoint _lastPoint;
         private MyPoint _firstPoint;
 
+        // https://rosettacode.org/wiki/Xiaolin_Wu%27s_line_algorithm#C#
+        private void plot(Bitmap bitmap, double x, double y, double c)
+        {
+            int alpha = (int)(c * 255);
+            if (alpha > 255) alpha = 255;
+            if (alpha < 0) alpha = 0;
+            Color color = Color.FromArgb(alpha, Color.Black);
+            if (x < 0 || y < 0)
+            {
+                return;
+            }
+            bitmap.SetPixel((int)x, (int)y, color);
+        }
+        int ipart(double x) { return (int)x; }
+        int round(double x) { return ipart(x + 0.5); }
+        double fpart(double x)
+        {
+            if (x < 0) return (1 - (x - Math.Floor(x)));
+            return (x - Math.Floor(x));
+        }
+        double rfpart(double x)
+        {
+            return 1 - fpart(x);
+        }
+        public void WuLine(float x0, float y0, float x1, float y1, Bitmap bitmap, int lineWidth)
+        {
+            bool steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
+            float temp;
+            if (steep)
+            {
+                temp = x0; x0 = y0; y0 = temp;
+                temp = x1; x1 = y1; y1 = temp;
+            }
+            if (x0 > x1)
+            {
+                temp = x0; x0 = x1; x1 = temp;
+                temp = y0; y0 = y1; y1 = temp;
+            }
+
+            double dx = x1 - x0;
+            double dy = y1 - y0;
+            double gradient = dy / dx;
+
+            double xEnd = round(x0);
+            double yEnd = y0 + gradient * (xEnd - x0);
+            double xGap = rfpart(x0 + 0.5);
+            double xPixel1 = xEnd;
+            double yPixel1 = ipart(yEnd);
+
+            if (steep)
+            {
+                plot(bitmap, yPixel1, xPixel1, rfpart(yEnd) * xGap);
+                plot(bitmap, yPixel1 + 1, xPixel1, fpart(yEnd) * xGap);
+            }
+            else
+            {
+                plot(bitmap, xPixel1, yPixel1, rfpart(yEnd) * xGap);
+                plot(bitmap, xPixel1, yPixel1 + 1, fpart(yEnd) * xGap);
+            }
+            double intery = yEnd + gradient;
+
+            xEnd = round(x1);
+            yEnd = y1 + gradient * (xEnd - x1);
+            xGap = fpart(x1 + 0.5);
+            double xPixel2 = xEnd;
+            double yPixel2 = ipart(yEnd);
+            if (steep)
+            {
+                plot(bitmap, yPixel2, xPixel2, rfpart(yEnd) * xGap);
+                plot(bitmap, yPixel2 + 1, xPixel2, fpart(yEnd) * xGap);
+            }
+            else
+            {
+                plot(bitmap, xPixel2, yPixel2, rfpart(yEnd) * xGap);
+                plot(bitmap, xPixel2, yPixel2 + 1, fpart(yEnd) * xGap);
+            }
+
+            if (steep)
+            {
+                for (int x = (int)(xPixel1 + 1); x <= xPixel2 - 1; x++)
+                {
+                    plot(bitmap, ipart(intery) - lineWidth / 2 - 1, x, rfpart(intery));
+                    for (int i = -lineWidth / 2; i < (int)Math.Ceiling(lineWidth / 2.0); i++)
+                    {
+                        plot(bitmap, ipart(intery) + i, x, 255);
+                    }
+                    plot(bitmap, ipart(intery) + (int)Math.Ceiling(lineWidth / 2.0), x, fpart(intery));
+                    intery += gradient;
+                }
+            }
+            else
+            {
+                for (int x = (int)(xPixel1 + 1); x <= xPixel2 - 1; x++)
+                {
+                    plot(bitmap, x, ipart(intery) - lineWidth / 2 - 1, rfpart(intery));
+                    for (int i = -lineWidth / 2; i < (int)Math.Ceiling(lineWidth / 2.0); i++)
+                    {
+                        plot(bitmap, x, ipart(intery) + i, 255);
+                    }
+                    plot(bitmap, x, ipart(intery) + (int)Math.Ceiling(lineWidth / 2.0), fpart(intery));
+                    intery += gradient;
+                }
+            }
+        }
+        public void WuPaint(Bitmap bitmap, Graphics g, int lineWidth = 1)
+        {
+            foreach (var p in Points)
+            {
+                WuLine(p.Value.X, p.Value.Y, p.Value.Next.X, p.Value.Next.Y, bitmap, lineWidth);
+
+                g.FillEllipse(Brushes.Black, p.Value.X - _pointRadius, p.Value.Y - _pointRadius, _pointRadius * 3, _pointRadius * 3);
+                g.DrawString(p.Value.Id.ToString(), _font, Brushes.Blue, new PointF(p.Value.X, p.Value.Y));
+                p.Value.PaintConstraints(g);
+            }
+        }
         // https://stackoverflow.com/questions/11678693/all-cases-covered-bresenhams-line-algorithm
-        public void MyDrawLine(float xD, float yD, float x2D, float y2D, Bitmap bitmap)
+        public void BresenhamLine(float xD, float yD, float x2D, float y2D, Bitmap bitmap)
         {
             int x = (int)Math.Round(xD);
             int y = (int)Math.Round(yD);
@@ -40,11 +155,7 @@
             for (int i = 0; i <= longest; i++)
             {
                 if (!(x < 0 || y < 0)) { bitmap.SetPixel(x, y, Color.Black); }
-                //if (!(x < 0 || y + 1 < 0)) { bitmap.SetPixel(x, y + 1, Color.Black); }
-                //if (!(x < 0 || y - 1 < 0)) { bitmap.SetPixel(x, y - 1, Color.Black); }
-                //if (!(x < 0 || y < 0)) { bitmap.SetPixel(x, y, Color.Black); }
-                //if (!(x + 1 < 0 || y < 0)) { bitmap.SetPixel(x + 1, y, Color.Black); }
-                //if (!(x - 1 < 0 || y < 0)) { bitmap.SetPixel(x - 1, y, Color.Black); }
+
                 numerator += shortest;
                 if (!(numerator < longest))
                 {
@@ -59,122 +170,25 @@
                 }
             }
         }
-        //int ipart(double x) { return (int)x; }
-
-        //int round(double x) { return ipart(x + 0.5); }
-
-        //double fpart(double x)
-        //{
-        //    if (x < 0) return (1 - (x - Math.Floor(x)));
-        //    return (x - Math.Floor(x));
-        //}
-
-        //double rfpart(double x)
-        //{
-        //    return 1 - fpart(x);
-        //}
-        //private void plot(Bitmap bitmap, double x, double y, double c)
-        //{
-        //    int alpha = (int)(c * 255);
-        //    if (alpha > 255) alpha = 255;
-        //    if (alpha < 0) alpha = 0;
-        //    Color color = Color.FromArgb(alpha, Color.Black);
-        //    if (x > 0 && y > 0)
-        //    {
-        //        bitmap.SetPixel((int)x, (int)y, color);
-        //    }
-        //    if (x > 0 && y + 1 > 0)
-        //    {
-        //        bitmap.SetPixel((int)x, (int)y + 1, color);
-        //    }
-        //    if (x + 1 > 0 && y > 0)
-        //    {
-        //        bitmap.SetPixel((int)x + 1, (int)y, color);
-        //    }
-        //}
-
-        //public void MyDrawLine(float x0, float y0, float x1, float y1, Bitmap bitmap)
-        //{
-        //    bool steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
-        //    float temp;
-        //    if (steep)
-        //    {
-        //        temp = x0; x0 = y0; y0 = temp;
-        //        temp = x1; x1 = y1; y1 = temp;
-        //    }
-        //    if (x0 > x1)
-        //    {
-        //        temp = x0; x0 = x1; x1 = temp;
-        //        temp = y0; y0 = y1; y1 = temp;
-        //    }
-
-        //    double dx = x1 - x0;
-        //    double dy = y1 - y0;
-        //    double gradient = dy / dx;
-
-        //    double xEnd = round(x0);
-        //    double yEnd = y0 + gradient * (xEnd - x0);
-        //    double xGap = rfpart(x0 + 0.5);
-        //    double xPixel1 = xEnd;
-        //    double yPixel1 = ipart(yEnd);
-
-        //    if (steep)
-        //    {
-        //        plot(bitmap, yPixel1, xPixel1, rfpart(yEnd) * xGap);
-        //        plot(bitmap, yPixel1 + 1, xPixel1, fpart(yEnd) * xGap);
-        //    }
-        //    else
-        //    {
-        //        plot(bitmap, xPixel1, yPixel1, rfpart(yEnd) * xGap);
-        //        plot(bitmap, xPixel1, yPixel1 + 1, fpart(yEnd) * xGap);
-        //    }
-        //    double intery = yEnd + gradient;
-
-        //    xEnd = round(x1);
-        //    yEnd = y1 + gradient * (xEnd - x1);
-        //    xGap = fpart(x1 + 0.5);
-        //    double xPixel2 = xEnd;
-        //    double yPixel2 = ipart(yEnd);
-        //    if (steep)
-        //    {
-        //        plot(bitmap, yPixel2, xPixel2, rfpart(yEnd) * xGap);
-        //        plot(bitmap, yPixel2 + 1, xPixel2, fpart(yEnd) * xGap);
-        //    }
-        //    else
-        //    {
-        //        plot(bitmap, xPixel2, yPixel2, rfpart(yEnd) * xGap);
-        //        plot(bitmap, xPixel2, yPixel2 + 1, fpart(yEnd) * xGap);
-        //    }
-
-        //    if (steep)
-        //    {
-        //        for (int x = (int)(xPixel1 + 1); x <= xPixel2 - 1; x++)
-        //        {
-        //            plot(bitmap, ipart(intery), x, rfpart(intery));
-        //            plot(bitmap, ipart(intery) + 1, x, fpart(intery));
-        //            intery += gradient;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        for (int x = (int)(xPixel1 + 1); x <= xPixel2 - 1; x++)
-        //        {
-        //            plot(bitmap, x, ipart(intery), rfpart(intery));
-        //            plot(bitmap, x, ipart(intery) + 1, fpart(intery));
-        //            intery += gradient;
-        //        }
-        //    }
-        //}
-
-        public void OwnPaint(Bitmap bitmap, Graphics g)
+        public void BresenhamPaint(Bitmap bitmap, Graphics g, int lineWidth)
         {
             foreach (var p in Points)
             {
-                MyDrawLine(p.Value.X, p.Value.Y, p.Value.Next.X, p.Value.Next.Y, bitmap);
-                //MyDrawLine(p.Value.X + 2, p.Value.Y, p.Value.Next.X + 2, p.Value.Next.Y, bitmap);
-                //MyDrawLine(p.Value.X + 1, p.Value.Y, p.Value.Next.X + 1, p.Value.Next.Y, bitmap);
-                //MyDrawLine(p.Value.X, p.Value.Y + 1, p.Value.Next.X, p.Value.Next.Y + 1, bitmap);
-                //MyDrawLine(p.Value.X, p.Value.Y + 2, p.Value.Next.X, p.Value.Next.Y + 2, bitmap);
+                float a = (p.Value.Y - p.Value.Next.Y) / (p.Value.X - p.Value.Next.X);
+                if ((1 > a && a >= 0) || (a < 0 && a > -1))
+                {
+                    for (int i = -lineWidth / 2; i < (int)Math.Ceiling(lineWidth / 2.0); i++)
+                    {
+                        BresenhamLine(p.Value.X, p.Value.Y + i, p.Value.Next.X, p.Value.Next.Y + i, bitmap);
+                    }
+                }
+                else
+                {
+                    for (int i = -lineWidth / 2; i < (int)Math.Ceiling(lineWidth / 2.0); i++)
+                    {
+                        BresenhamLine(p.Value.X + i, p.Value.Y, p.Value.Next.X + i, p.Value.Next.Y, bitmap);
+                    }
+                }
 
                 g.FillEllipse(Brushes.Black, p.Value.X - _pointRadius, p.Value.Y - _pointRadius, _pointRadius * 2, _pointRadius * 2);
                 g.DrawString(p.Value.Id.ToString(), _font, Brushes.Blue, new PointF(p.Value.X, p.Value.Y));
@@ -346,6 +360,20 @@
                 return true;
             }
             return false;
+        }
+        public void BasicPaint(Graphics g, int lineWidth)
+        {
+            foreach (var id_point in Points)
+            {
+                MyPoint point = id_point.Value;
+                g.FillEllipse(Brushes.Black, point.X - _pointRadius, point.Y - _pointRadius, _pointRadius * 2, _pointRadius * 2);
+                if (point.Next != null)
+                {
+                    g.DrawLine(new Pen(Brushes.Black, lineWidth), new PointF(point.X, point.Y), new PointF(point.Next.X, point.Next.Y));
+                }
+                g.DrawString(point.Id.ToString(), _font, Brushes.Brown, new PointF(point.X, point.Y));
+                point.PaintConstraints(g);
+            }
         }
         public void PaintPolygon(Graphics g, Pen lineColor, Brush pointColor, Pen selectedLineColor, Brush selectedPointColor,
             int pointId = -1, LastSelectedElement lastSelectedElement = LastSelectedElement.POLYGON)
